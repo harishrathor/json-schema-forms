@@ -1,0 +1,59 @@
+/server/db-server/node_modules
+/server/file-server/node_modules
+/server/web-server/sessions
+/server/web-server/node_modules
+/server/db-server/dist
+/server/file-server/dist
+/server/web-server/dist
+/web-client/node_modules
+
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/web-client/dist
+/web-client/tmp
+/web-client/out-tsc
+# Only exists if Bazel was run
+/web-client/bazel-out
+
+# dependencies
+/web-client/node_modules
+
+# profiling files
+/web-clientchrome-profiler-events.json
+/web-clientspeed-measure-plugin.json
+
+# IDEs and editors
+/web-client/.idea
+/web-client/.project
+/web-client/.classpath
+/web-client/.c9/
+/web-client/*.launch
+/web-client/.settings/
+/web-client/*.sublime-workspace
+
+# IDE - VSCode
+/web-client/.vscode/*
+/web-client/!.vscode/settings.json
+/web-client/!.vscode/tasks.json
+/web-client/!.vscode/launch.json
+/web-client/!.vscode/extensions.json
+/web-client/.history/*
+
+# misc
+/web-client/.sass-cache
+/web-client/connect.lock
+/web-client/coverage
+/web-client/libpeerconnection.log
+/web-client/npm-debug.log
+/web-client/yarn-error.log
+/web-client/testem.log
+/web-client/typings
+
+# System Files
+/web-client/.DS_Store
+/web-client/Thumbs.db
+
+/web-client/.github
+/web-client/.gitignore

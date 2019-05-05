@@ -1,0 +1,34 @@
+{
+  "name": "json-form-generator-server-db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "watch": {
+    "build-db": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js",
+      "quiet": true,
+      "legacyWatch": true,
+      "delay": 2500,
+      "runOnChangeOnly": false
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-db": "npm-watch ",
+    "build-db": "babel --presets es2015 src -d dist"
+  },
+  "author": "harishrathor",
+  "license": "ISC",
+  "dependencies": {
+    "module-alias": "^2.2.0",
+    "mongodb": "^3.2.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "npm-watch": "^0.6.0"
+  }
+}

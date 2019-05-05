@@ -1,0 +1,36 @@
+{
+  "name": "json-form-generator-server-file",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "watch": {
+    "build-run-file": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js",
+      "quiet": true,
+      "legacyWatch": true,
+      "delay": 2500,
+      "runOnChangeOnly": false
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-run-file-server": "npm-watch ",
+    "benchmark": "loadtest -c 1000 http://localhost:5000/file/assets/public/FRM0000000001.json",
+    "build-run-file": "babel --presets es2015 src -d dist && node dist/server.js",
+    "run-curl-request": "node lib/curl-request.js"
+  },
+  "author": "harishrathor",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "curl-request": "^1.1.1",
+    "loadtest": "^3.0.7",
+    "npm-watch": "^0.6.0"
+  },
+  "dependencies": {
+  }
+}
