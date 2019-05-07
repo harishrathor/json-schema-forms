@@ -1,4 +1,5 @@
 import AbstractController from '@coreModule/classes/abstract.controller';
+import UserPersonInfoCollection from '@jsonSchemaFormsDB/user/collections/user-person-info.collection'
 
 export default class AuthController extends AbstractController {
     constructor() {
@@ -12,7 +13,21 @@ export default class AuthController extends AbstractController {
 
     loginAction(req, res, responseHandler) {
         req.session.username = 'harishrathor';
-        responseHandler.sendResponse('text', 'Logged In successfully', true);
+       // console.log('UserPersonInfoCollection', UserPersonInfoCollection);
+         const userPersonInfoCollection = new UserPersonInfoCollection();
+         userPersonInfoCollection.collection.then((collection) => {
+            collection.insertOne({
+                firstName: 'Harish',
+                lastName: 'Rathor'
+            });
+            collection.find().count().then((count) => {
+                responseHandler.sendResponse('text', 'Logged In successfully. Total insertion count: ' + count, true);
+            }).catch((err) => {
+                console.log('Error in fetching count', err);
+            });
+         }).catch((err) => {
+             console.log(err);
+         });
     }
 
     logoutAction(req, res, responseHandler) {

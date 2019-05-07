@@ -35,6 +35,8 @@
   "dependencies": {
     "express": "^4.16.4",
     "express-session": "^1.16.1",
-    "module-alias": "^2.2.0"
+    "jsencrypt": "^3.0.0-rc.1",
+    "module-alias": "^2.2.0",
+    "mongodb": "^3.2.3"
   }
 }

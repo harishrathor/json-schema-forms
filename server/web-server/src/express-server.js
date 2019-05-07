@@ -23,6 +23,7 @@ const globalValues = {
 Object.assign(global.SERVER, globalValues);
 
 require("@routes/app.routes"); //Using require because we need to load it  syncronously;
+require('@db');
 
 const PORT = process.env.port || 5000;
 
