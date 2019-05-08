@@ -1,6 +1,4 @@
 
-import * as path from 'path';
-import fs  from 'fs';
 import utils from '@shared/utils.class'; 
 
 export default class ResponseHandler {
@@ -38,7 +36,6 @@ export default class ResponseHandler {
 
     _sendFile(filePath, endFlag) {
         const request = this.req;
-        const response = this.res;
         const url = request.url;
         if (url === '/') {
             filePath = '/index.html';
@@ -46,36 +43,6 @@ export default class ResponseHandler {
             filePath = url;
         } 
         const fullFilePath = SERVER.PATHS.CLIENT_ROOT + filePath;
-        var extname = String(path.extname(filePath)).toLowerCase();
-        var mimeTypes = {
-            '.html': 'text/html',
-            '.js': 'text/javascript',
-            '.css': 'text/css',
-            '.json': 'application/json',
-            '.png': 'image/png',
-            '.jpg': 'image/jpg',
-            '.gif': 'image/gif',
-            '.wav': 'audio/wav',
-            '.mp4': 'video/mp4',
-            '.woff': 'application/font-woff',
-            '.ttf': 'application/font-ttf',
-            '.eot': 'application/vnd.ms-fontobject',
-            '.otf': 'application/font-otf',
-            '.svg': 'application/image/svg+xml'
-        };
-    
-        var contentType = mimeTypes[extname] || 'application/octet-stream';
-       /*  fs.readFile(fullFilePath, (error, content) => {
-            if (error) {
-                if(error.code == 'ENOENT') {
-                    this._write(`File ${filePath} does not exist.`, endFlag, 404);
-                } else {
-                    this._write('Sorry, check with the site admin for error: ' + error.code + ' ..\n', endFlag, 500);
-                }
-            } else {
-                this._write(content, endFlag, 200, { 'Content-Type': contentType });
-            }
-        }); */
         this.res.sendFile(fullFilePath);
     }
 

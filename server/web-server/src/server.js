@@ -1,7 +1,7 @@
 import "./paths";
 
 import http from "http";
-import Handler from "@coreModule/classes/request-handler";
+import Handler from "@coreModule/classes/request-handler.class";
 
 const PORT = process.env.port || 5000;
 /* 

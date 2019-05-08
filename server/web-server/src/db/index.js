@@ -1,6 +1,6 @@
 import MongoClient from 'mongodb';
 import assert from 'assert';
-import dbConfig from '@db/db.config';
+import dbConfig from '@configs/db.config';
 
 // Connection URL
 const url = dbConfig.URL;
@@ -11,7 +11,7 @@ const dbName = dbConfig.DB_NAME;
 // Use connect method to connect to the server
 MongoClient.connect(url, function(err, client) {
     assert.equal(null, err);
-    console.log("Connected successfully to server");
+    console.log(`Successfully made DB connection to server: ${url}. Database name: ${dbName}`);
   
 	global.SERVER.DB =  {
 		CLIENT: client,

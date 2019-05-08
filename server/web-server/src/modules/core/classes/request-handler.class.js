@@ -1,7 +1,7 @@
 import * as path from 'path';
 import utils from '@shared/utils.class'; 
-import ResponseHandler from '@coreModule/classes/response-handler';
-import isAuthorizedUser from '@userModule/functions/auth.function'
+import ResponseHandler from '@coreModule/classes/response-handler.class';
+import isAuthorizedUser from '@userModule/functions/auth.function';
 import fs from 'fs';
 
 let _this;
