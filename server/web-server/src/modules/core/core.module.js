@@ -1,7 +1,7 @@
 import AbstractModule from '@coreModule/classes/abstract.module';
 import JsonController from '@coreModule/controllers/json/json.controller';
 
-export class CoreModule extends AbstractModule {
+export default class CoreModule extends AbstractModule {
     
     constructor() {
         super();
@@ -14,3 +14,7 @@ export class CoreModule extends AbstractModule {
         };
     }
 }
+
+export {
+    CoreModule
+};

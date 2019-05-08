@@ -22,7 +22,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-run-web-server": "npm-watch ",
     "benchmark": "loadtest -c 1000 http://localhost:5000/file/assets/public/FRM0000000001.json",
-    "build-run-web": "babel --presets es2015 src -d dist && node dist/express-server.js"
+    "build-run-web": "babel --presets es2015 src -d dist && node dist/server.js"
   },
   "author": "harishrathor",
   "license": "ISC",

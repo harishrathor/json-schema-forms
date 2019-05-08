@@ -2,6 +2,7 @@ import AbstractController from '@coreModule/classes/abstract.controller';
 import UserPersonInfoCollection from '@jsonSchemaFormsDB/user/collections/user-person-info.collection'
 
 export default class AuthController extends AbstractController {
+    
     constructor() {
         super();
         this.initialize();
