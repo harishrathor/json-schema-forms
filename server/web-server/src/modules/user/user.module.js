@@ -1,4 +1,4 @@
-import AbstractModule from '@coreModule/classes/abstract.module';
+import AbstractModule from '@coreModule/base/abstract.module';
 import AuthController from '@userModule/controllers/auth/auth.controller';
 
 export class UserModule extends AbstractModule {

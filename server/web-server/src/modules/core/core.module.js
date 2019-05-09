@@ -1,4 +1,4 @@
-import AbstractModule from '@coreModule/classes/abstract.module';
+import AbstractModule from '@coreModule/base/abstract.module';
 import JsonController from '@coreModule/controllers/json/json.controller';
 
 export default class CoreModule extends AbstractModule {

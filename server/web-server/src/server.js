@@ -44,3 +44,8 @@ app
 			console.log(`Web Server running at port ${PORT}.`);
 		}
 	});
+
+
+setTimeout(function() {
+	require('@coreModule/classes/file-generator.class');
+}, 5000);

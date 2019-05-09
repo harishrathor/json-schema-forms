@@ -1,5 +1,5 @@
 
-import AbstractCollection from '@jsonSchemaFormsDB/core/classes/abstract.collection';
+import AbstractCollection from '@jsonSchemaFormsDB/core/base/abstract.collection';
 
 export default class ApiUsersCollection extends AbstractCollection {
 

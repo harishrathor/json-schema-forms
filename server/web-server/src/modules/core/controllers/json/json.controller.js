@@ -1,4 +1,4 @@
-import AbstractController from '@coreModule/classes/abstract.controller';
+import AbstractController from '@coreModule/base/abstract.controller';
 
 export default class JsonController extends AbstractController {
     constructor() {
@@ -9,8 +9,8 @@ export default class JsonController extends AbstractController {
     initialize() {
     }
 
-    jsonAction(req, res, responseHandler) {
-        responseHandler.sendResponse('text', 'JSON action.', true);
+    jsonAction() {
+        this.responseHandler.sendResponse('text', 'JSON action.', true);
     }
 }
 

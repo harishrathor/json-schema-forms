@@ -1,5 +1,5 @@
 
-import AbstractModule from '@coreModule/classes/abstract.module';
+import AbstractModule from '@coreModule/base/abstract.module';
 
 export default class ApiModule extends AbstractModule {
 

@@ -53,13 +53,16 @@ class RequestHandler {
 
         if (moduleInstance) {
             const controllerInstance = moduleInstance.getControllerInstance(controllerName);
+            controllerInstance.req = req;
+            controllerInstance.res = res;
+            controllerInstance.responseHandler = responseHandler;
             console.log('controllerName', controllerName);
             if (!controllerInstance) {
                 responseHandler.sendResponse('text', '3:' + errMessage);
                 return ;
             }
             
-            const actionMethodName = utils.toMethodName(action) + 'Action';
+            const actionMethodName = utils.toMethodName(action, '-') + 'Action';
             if (!controllerInstance[actionMethodName]) {
                 responseHandler.sendResponse('text', errMessage);
                 return ;
