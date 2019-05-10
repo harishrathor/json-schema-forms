@@ -257,11 +257,11 @@ import '@${moduleName}Module/${moduleName}.module.routing';`;
             if(dirent.isDirectory()) {
                 const moduleName = dirent.name;
                 pathsVar += `
-const ${moduleName}Module = path.join(rootDir, 'modules', '${moduleName}');`;
+const ${moduleName}Module = path.join(modulesDir, '${moduleName}');`;
                 alias += `
     '@${moduleName}Module'		  	: ${moduleName}Module,`;
                 strPath += `
-    '@${moduleName.toUpperCase()}_MODULE'		  	: ${moduleName}Module,`;
+    '${moduleName.toUpperCase()}_MODULE'		  	: ${moduleName}Module,`;
             }
         }
 
@@ -278,6 +278,7 @@ const modules = path.join(rootDir, 'modules');
 const routes = path.join(rootDir, 'routes');
 const db = path.join(rootDir, 'db');
 const jsonSchemaFormsDB = path.join(rootDir, 'db', 'json_schema_forms');
+const modulesDir = path.join(rootDir, 'modules');
 
 ${pathsVar}
 

@@ -41,9 +41,9 @@ export default PATHS = {
     'SHARED'			    : shared,
     'ROUTES'     			: routes,
     'DB'					: db,
-    '@API_MODULE'		  	: apiModule,
-    '@CORE_MODULE'		  	: coreModule,
-    '@USER_MODULE'		  	: userModule,
+    'API_MODULE'		  	: apiModule,
+    'CORE_MODULE'		  	: coreModule,
+    'USER_MODULE'		  	: userModule,
     'JSON_SCHEMA_FORMS_DB'  : jsonSchemaFormsDB
 };
 
