@@ -1,12 +1,13 @@
+
+import AbstractClass from '@coreModule/base/abstract.class';
 import fs from 'fs';
 import path from 'path';
 import utils from '@shared/utils.class';
 
+export default class FileGeneratorClass extends AbstractClass {
 
-
-export class FileGenerator {
-
-    constructor() {
+    initialize() {
+        super.initialize();
         this.rootDir = path.join(global.SERVER.PATHS.ROOT, '..', 'src');
         this.dbName = 'json_schema_forms';
     }
@@ -486,15 +487,21 @@ export { PATHS };
 
 }
 
+export {
+    FileGeneratorClass
+};
+
+
+
 /* 
 const generater = new FileGenerator();
 //generater.generateModule('api');
 generater.generateController('api', 'form-schema'); */
-
-const generater = new FileGenerator();
+/* 
+const generater = new FileGeneratorClass();
 const moduleName = 'test6';
 generater.generateModule(moduleName);
-generater.generateController(moduleName, 'test2');
+generater.generateController(moduleName, 'test2'); */
 /*generater.generateClass(moduleName, 'test');
  generater.generateFunction(moduleName, 'test');
 generater.generateHelper(moduleName, 'test');

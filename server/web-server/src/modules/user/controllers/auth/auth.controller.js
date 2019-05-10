@@ -1,15 +1,10 @@
+
 import AbstractController from '@coreModule/base/abstract.controller';
-import UserPersonInfoCollection from '@jsonSchemaFormsDB/user/collections/user-person-info.collection'
 
 export default class AuthController extends AbstractController {
-    
-    constructor() {
-        super();
-        this.initialize();
-    }
 
     initialize() {
-        
+        super.initialize();
     }
 
     loginAction() {
@@ -35,7 +30,10 @@ export default class AuthController extends AbstractController {
         this.req.session.destroy();
         this.responseHandler.sendResponse('text', 'Logged Out successfully', true);
     }
-    
+
 }
 
-export { AuthController };
+export {
+    AuthController
+};
+        

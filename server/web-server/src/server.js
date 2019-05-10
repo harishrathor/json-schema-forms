@@ -41,10 +41,11 @@ app
 			console.log(`Web Server running at port ${PORT}.`);
 		}
 	});
-/* 
 
-setTimeout(function() {
-	require('@coreModule/classes/file-generator.class');
+
+
+/*  setTimeout(function() {
+	require('./file-generator.class');
 }, 5000); */
 
 /* import CryptoService from '@coreModule/services/crypto.service';

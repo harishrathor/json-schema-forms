@@ -1,18 +1,18 @@
+
+import AbstractClass from '@coreModule/base/abstract.class';
+
 import * as path from 'path';
 import utils from '@shared/utils.class'; 
-import ResponseHandler from '@coreModule/classes/response-handler.class';
+import ResponseHandlerClass from '@coreModule/classes/response-handler.class';
 import isAuthorizedUser from '@userModule/functions/auth.function';
 import fs from 'fs';
 
 let _this;
 
-class RequestHandler {
-
-    constructor() {
-        this.initialize();
-    }
+class RequestHandlerClass extends AbstractClass {
 
     initialize() {
+        super.initialize();
         _this = this;
         this._modules = {};
     }
@@ -117,7 +117,7 @@ class RequestHandler {
             const url = req.url;
             const urlParts = url.split('/').splice(1);
             const routeIdentifier = urlParts[0];
-            const responseHandler = new ResponseHandler(req, res);
+            const responseHandler = new ResponseHandlerClass(req, res);
 
             if (url === '/') {
                 responseHandler.sendResponse('file', undefined, true);
@@ -162,7 +162,14 @@ class RequestHandler {
             console.log(error);
         }
     }
+
 }
 
-const Handler = new RequestHandler();
+
+const Handler = new RequestHandlerClass();
 export default Handler;
+
+export {
+    RequestHandlerClass
+};
+        

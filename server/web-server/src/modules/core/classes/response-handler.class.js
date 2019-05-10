@@ -1,11 +1,18 @@
 
+import AbstractClass from '@coreModule/base/abstract.class';
+
 import utils from '@shared/utils.class'; 
 
-export default class ResponseHandler {
+export default class ResponseHandlerClass extends AbstractClass {
 
     constructor(req, res) {
+        super();
         this.req = req;
         this.res = res;
+    }
+
+    initialize() {
+        super.initialize();
     }
 
     _write(content, endFlag, statusCode, contentType, endCoding) {
@@ -68,5 +75,10 @@ export default class ResponseHandler {
     end() {
         this.res.end();
     }
-    
+
 }
+
+export {
+    ResponseHandlerClass
+};
+        
