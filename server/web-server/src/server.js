@@ -34,9 +34,6 @@ app
 	)
 	.use(express.static(SERVER.PATHS.CLIENT_ROOT))
 	.use(Router)
-	.all((req, res) => {
-		Handler.handle.call(Handler, req, res);
-	})
 	.listen(PORT, err => {
 		if (err) {
 			console.log("Error in running web server.", err);
@@ -44,8 +41,16 @@ app
 			console.log(`Web Server running at port ${PORT}.`);
 		}
 	});
-
+/* 
 
 setTimeout(function() {
 	require('@coreModule/classes/file-generator.class');
-}, 5000);
+}, 5000); */
+
+/* import CryptoService from '@coreModule/services/crypto.service';
+const crypto = new CryptoService();
+//console.log('crypto', crypto);
+crypto.plainText = 'Harish';
+crypto.secretKey = 'Rathor';
+console.log(crypto.encrypt(), crypto.decrypt()); */
+

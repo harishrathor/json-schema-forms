@@ -27,12 +27,13 @@ export class FileGenerator {
         const moduleClassName = utils.toClassName(moduleName, '/') + 'Module';
         const content = `
 import AbstractModule from '@coreModule/base/abstract.module';
+import { controllers } from '@${moduleName}Module/${moduleName}.module.data';
 
 export default class ${moduleClassName} extends AbstractModule {
 
     initialize() {
         super.initialize();
-        this._controllers = {};
+        this._controllers = controllers;
     }
 
 }
@@ -172,6 +173,142 @@ export {
         return content;
     }
 
+    _getModuleRoutingFileContent(moduleName) {
+        const moduleDir = this.getModuleDir(moduleName);
+        const controllerDir = path.join(moduleDir, 'controllers');
+        const controllersDirs = fs.readdirSync(controllerDir, {
+            withFileTypes: true
+        });
+        let content = ` `;
+        for(const dirent of controllersDirs) {
+            if(dirent.isDirectory()) {
+                const controllerName = dirent.name;
+                content += `
+export * from '@${moduleName}Module/controllers/${controllerName}/${controllerName}.controller.routing';`;
+            }
+        }
+        return content;
+        
+    }
+
+    _getModuleDataFileContent(moduleName) {
+        const moduleDir = this.getModuleDir(moduleName);
+        const controllerDir = path.join(moduleDir, 'controllers');
+        const controllersDirs = fs.readdirSync(controllerDir, {
+            withFileTypes: true
+        });
+        let controllersImports = ``;
+        let controllersClassValue = ``;
+        for(const dirent of controllersDirs) {
+            if(dirent.isDirectory()) {
+                const controllerName = dirent.name;
+                const controllerClassName = utils.toClassName(controllerName, '-') + 'Controller';
+                controllersImports += `
+import { ${controllerClassName} } from '@${moduleName}Module/controllers/${controllerName}/${controllerName}.controller';`;
+            controllersClassValue += `
+        ${controllerName}:     ${controllerClassName},`;
+            }
+        }
+
+        const content = `
+${controllersImports}
+
+export const controllers = {${controllersClassValue}
+}`;
+        return content;
+        
+    }
+
+    _getRoutingFileContent() {
+        const moduleDir = path.join(this.rootDir, 'modules');
+        const modulesDirs = fs.readdirSync(moduleDir, {
+            withFileTypes: true
+        });
+        let content = `
+const router = global.SERVER.ROUTER;
+const requestHandler = global.SERVER.REQUEST_HANDLER;
+
+router.get('/', requestHandler);
+router.get('/file/assets/*', requestHandler);
+`;
+        for(const dirent of modulesDirs) {
+            if(dirent.isDirectory()) {
+                const moduleName = dirent.name;
+                content += `
+import '@${moduleName}Module/${moduleName}.module.routing';`;
+            }
+        }
+        return content;
+    }
+
+    _getPathsFileContent() {
+        //const pathsFile = paht.join(this.rootDir, 'paths.js');
+        let alias = ``;
+        let strPath = ``;
+        let pathsVar =  ``;
+
+        const moduleDir = path.join(this.rootDir, 'modules');
+        const modulesDirs = fs.readdirSync(moduleDir, {
+            withFileTypes: true
+        });
+       
+        for(const dirent of modulesDirs) {
+            if(dirent.isDirectory()) {
+                const moduleName = dirent.name;
+                pathsVar += `
+const ${moduleName}Module = path.join(rootDir, 'modules', '${moduleName}');`;
+                alias += `
+    '@${moduleName}Module'		  	: ${moduleName}Module,`;
+                strPath += `
+    '@${moduleName.toUpperCase()}_MODULE'		  	: ${moduleName}Module,`;
+            }
+        }
+
+        const conent = `
+import moduleAliase from 'module-alias';
+import path from 'path';
+
+const rootDir = __dirname;
+
+const config = path.join(rootDir, 'configs');
+const clientRoot = path.join(rootDir, '..', '..','..','web-client', 'dist', 'json-form-generator-client');
+const shared = path.join(rootDir, 'shared');
+const modules = path.join(rootDir, 'modules');
+const routes = path.join(rootDir, 'routes');
+const db = path.join(rootDir, 'db');
+const jsonSchemaFormsDB = path.join(rootDir, 'db', 'json_schema_forms');
+
+${pathsVar}
+
+moduleAliase.addAliases({
+    '@root'         	: rootDir,
+    '@configs'      	: config,
+    '@clientRoot'    	: clientRoot,
+    '@shared'         	: shared,
+    '@routes'         	: routes, 
+    '@modules'			: modules,
+    '@db'				: db,${alias}
+    '@jsonSchemaFormsDB': jsonSchemaFormsDB
+});
+
+let PATHS;
+    
+export default PATHS = {
+    'ROOT'  			    	: rootDir,
+    'CONFIGS'			    : config,
+    'MODULES'			    : modules,
+    'CLIENT_ROOT'		  	: clientRoot,
+    'SHARED'			    : shared,
+    'ROUTES'     			: routes,
+    'DB'					: db,${strPath}
+    'JSON_SCHEMA_FORMS_DB'  : jsonSchemaFormsDB
+};
+
+export { PATHS };
+`;
+    return conent;
+    }
+
     getModuleDir(moduleName) {
         return path.join(this.rootDir, 'modules', moduleName);
     }
@@ -206,6 +343,22 @@ export {
         return path.join(dbFolder, moduleName);
     }
 
+    _updateRoutingFile() {
+        const routingFile = path.join(this.rootDir, 'routes', 'index.js');
+        const routingFileContent = this._getRoutingFileContent();
+        fs.unlinkSync(routingFile);
+        this.createAndWriteFile(routingFile, 'F', routingFileContent);
+        console.log('Updated Routing File.');
+    }
+
+    _updatePathsFile() {
+        const file = path.join(this.rootDir,  'paths.js');
+        const fileContent = this._getPathsFileContent();
+        fs.unlinkSync(file);
+        this.createAndWriteFile(file, 'F', fileContent);
+        console.log('Updated Paths File.');
+    }
+
     generateModule(moduleName) {
         const moduleDir = this.getModuleDir(moduleName);
         if (this.createAndWriteFile(moduleDir, 'D')) {
@@ -219,15 +372,38 @@ export {
                 this.createAndWriteFile(path.join(moduleDir, 'functions'),  'D');
                 this.createAndWriteFile(path.join(moduleDir, 'services'),  'D');
                 this.createAndWriteFile(path.join(moduleDir, 'helpers'),  'D');
-
-              
+                
+                
                 const dbModulePath = this.getDBModuleDir(moduleName);
                 if (this.createAndWriteFile(dbModulePath,  'D')) {
                     this.createAndWriteFile(path.join(dbModulePath, 'collections'),  'D');;
                 }
+                const moduleDataFile = path.join(moduleDir, `${moduleName}.module.data.js`);
+                const moduleDataFileContent = this._getModuleDataFileContent(moduleName);
+                this.createAndWriteFile(moduleDataFile, 'F', moduleDataFileContent);
                 console.log('Created Module.');
+                this._updatePathsFile();
+                this._updateRoutingFile();
             }
         }
+    }
+
+    _updateModuleRoutingFile(moduleName) {
+        const moduleDir = this.getModuleDir(moduleName);
+        const routingFile = path.join(moduleDir, `${moduleName}.module.routing.js`);
+        const routingFileContent = this._getModuleRoutingFileContent(moduleName);
+        fs.unlinkSync(routingFile);
+        this.createAndWriteFile(routingFile, 'F', routingFileContent);
+        console.log('Updated Module Routing File.');
+    }
+
+    _updateModuleDataFile(moduleName) {
+        const moduleDir = this.getModuleDir(moduleName);
+        const file = path.join(moduleDir, `${moduleName}.module.data.js`);
+        const fileContent = this._getModuleDataFileContent(moduleName);
+        fs.unlinkSync(file);
+        this.createAndWriteFile(file, 'F', fileContent);
+        console.log('Updated Module Data File.');
     }
 
     generateController(moduleName, controllerName) {
@@ -240,6 +416,8 @@ export {
                 const routingDefaultContent = this._getControllerRoutingFileDefaultContent(moduleName, controllerName); 
                 this.createAndWriteFile(controllerRoutingFile, 'F', routingDefaultContent);
                 console.log('Created Controller.');
+                this._updateModuleRoutingFile(moduleName);
+                this._updateModuleDataFile(moduleName);
             }
         }
 
@@ -312,13 +490,14 @@ export {
 const generater = new FileGenerator();
 //generater.generateModule('api');
 generater.generateController('api', 'form-schema'); */
-/* 
+
 const generater = new FileGenerator();
-const moduleName = 'test';
-generater.generateModule('test');
-generater.generateClass(moduleName, 'test');
-generater.generateController(moduleName, 'test');
-generater.generateFunction(moduleName, 'test');
+const moduleName = 'test6';
+generater.generateModule(moduleName);
+generater.generateController(moduleName, 'test2');
+/*generater.generateClass(moduleName, 'test');
+ generater.generateFunction(moduleName, 'test');
 generater.generateHelper(moduleName, 'test');
 generater.generateService(moduleName, 'test');
 generater.generateCollection(moduleName, 'test_col'); */
+//generater.generateService('core', 'cryptography');
