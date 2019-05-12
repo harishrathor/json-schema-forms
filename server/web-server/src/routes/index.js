@@ -5,6 +5,12 @@ const requestHandler = global.SERVER.REQUEST_HANDLER;
 router.get('/', requestHandler);
 router.get('/file/assets/*', requestHandler);
 
+/* 
+app.use(/^((?!(api)).)*\/, (req, res) => {
+    res.sendFile(path.join(__dirname, distDir + '/index.html'));
+});
+*/
+
 import '@apiModule/api.module.routing';
 import '@coreModule/core.module.routing';
 import '@userModule/user.module.routing';

@@ -6,18 +6,34 @@ global.SERVER = {
 
 import express from "express";
 import session from 'express-session';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import compress from 'compression';
+import methodOverride from 'method-override';
+import cors from 'cors';
+import helmet from 'helmet';
+
 const app = express();
 const Router = express.Router();
+
+
 import Handler from "@coreModule/classes/request-handler.class";
 import sessionConfig from '@configs/session.config';
 
 const globalValues = {
+	ENV 				: process.env.NODE_ENV,		
 	ROUTER          	: Router,
 	APP             	: app,
 	REQUEST_HANDLER 	: Handler.handle,
-	CONSTANTS			: { API_ROUTE_PREFIX: "/api" }
+	CONSTANTS			: { API_ROUTE_PREFIX: "/api" },
+	UTILS				: {
+		
+	},
+	isDev			: function() { return process.env.NODE_ENV === 'development'; },
+	isProd			: function() { return process.env.NODE_ENV === 'production'; },
+	isStaging			: function() { return process.env.NODE_ENV === 'staging'; },
 };
-
 Object.assign(global.SERVER, globalValues);
 
 //Using require because we need to load syncronously;
@@ -25,6 +41,26 @@ require("@routes");
 require('@db');
 
 const PORT = process.env.port || 5000;
+
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+app.use(compress());
+app.use(methodOverride());
+
+// secure apps by setting various HTTP headers
+app.use(helmet());
+
+// enable CORS - Cross Origin Resource Sharing
+app.use(cors());
+
+
+if (SERVER.isDev()) {
+	app.use(logger('dev'));
+}
+
 
 app
 	.use(
@@ -38,10 +74,9 @@ app
 		if (err) {
 			console.log("Error in running web server.", err);
 		} else {
-			console.log(`Web Server running at port ${PORT}.`);
+			console.log(`Web(${process.env.NODE_ENV}) Server running at port ${PORT}.`);
 		}
 	});
-
 
 
 /*  setTimeout(function() {

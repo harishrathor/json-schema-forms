@@ -5,6 +5,7 @@
 /server/db-server/dist
 /server/file-server/dist
 /server/web-server/dist
+/server/web-server/.idea
 /web-client/node_modules
 
 
