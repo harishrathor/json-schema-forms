@@ -1,3 +1,10 @@
+/*
+
+Note: Please do not edit it. This file is written by server.
+
+*/
+
+
 
 import moduleAliase from 'module-alias';
 import path from 'path';

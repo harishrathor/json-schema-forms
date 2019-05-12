@@ -185,6 +185,12 @@ export {
             if(dirent.isDirectory()) {
                 const controllerName = dirent.name;
                 content += `
+/*
+
+Note: Please do not edit it. This file is written by server.
+
+*/
+
 export * from '@${moduleName}Module/controllers/${controllerName}/${controllerName}.controller.routing';`;
             }
         }
@@ -205,6 +211,12 @@ export * from '@${moduleName}Module/controllers/${controllerName}/${controllerNa
                 const controllerName = dirent.name;
                 const controllerClassName = utils.toClassName(controllerName, '-') + 'Controller';
                 controllersImports += `
+/*
+
+Note: Please do not edit it. This file is written by server.
+
+*/
+                
 import { ${controllerClassName} } from '@${moduleName}Module/controllers/${controllerName}/${controllerName}.controller';`;
             controllersClassValue += `
         ${controllerName}:     ${controllerClassName},`;
@@ -226,6 +238,13 @@ export const controllers = {${controllersClassValue}
             withFileTypes: true
         });
         let content = `
+/*
+
+Note: Please do not edit it. This file is written by server.
+
+*/
+        
+
 const router = global.SERVER.ROUTER;
 const requestHandler = global.SERVER.REQUEST_HANDLER;
 
@@ -266,6 +285,12 @@ const ${moduleName}Module = path.join(modulesDir, '${moduleName}');`;
         }
 
         const conent = `
+/*
+
+Note: Please do not edit it. This file is written by server.
+
+*/
+        
 import moduleAliase from 'module-alias';
 import path from 'path';
 
