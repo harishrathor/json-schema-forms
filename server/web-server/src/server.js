@@ -20,6 +20,7 @@ const Router = express.Router();
 
 import Handler from "@coreModule/classes/request-handler.class";
 import sessionConfig from '@configs/session.config';
+const MongoStore = require('connect-mongo')(session);
 
 const globalValues = {
 	ENV 				: process.env.NODE_ENV,		
@@ -27,9 +28,7 @@ const globalValues = {
 	APP             	: app,
 	REQUEST_HANDLER 	: Handler.handle,
 	CONSTANTS			: { API_ROUTE_PREFIX: "/api" },
-	UTILS				: {
-		
-	},
+	UTILS				: {},
 	isDev			: function() { return process.env.NODE_ENV === 'development'; },
 	isProd			: function() { return process.env.NODE_ENV === 'production'; },
 	isStaging			: function() { return process.env.NODE_ENV === 'staging'; },
@@ -38,7 +37,7 @@ Object.assign(global.SERVER, globalValues);
 
 //Using require because we need to load syncronously;
 require("@routes"); 
-require('@db');
+const db = require('@db');
 
 const PORT = process.env.port || 5000;
 
@@ -62,21 +61,31 @@ if (SERVER.isDev()) {
 }
 
 
-app
-	.use(
+db.default.then(() => {
+	console.log('Promise Resolved.');
+	sessionConfig.store = new MongoStore({ db: global.SERVER.DB.CONNECTION });
+	app.use(
 		session(
 			sessionConfig
 		)
 	)
 	.use(express.static(SERVER.PATHS.CLIENT_ROOT))
-	.use(Router)
-	.listen(PORT, err => {
+	.use(Router);
+	startServer();
+}).catch((err) => {
+	console.log('Error in DB connection.', err);
+	startServer();
+});
+function startServer() {
+	app.listen(PORT, err => {
 		if (err) {
 			console.log("Error in running web server.", err);
 		} else {
 			console.log(`Web(${process.env.NODE_ENV}) Server running at port ${PORT}.`);
 		}
 	});
+}
+
 
 
 /*  setTimeout(function() {

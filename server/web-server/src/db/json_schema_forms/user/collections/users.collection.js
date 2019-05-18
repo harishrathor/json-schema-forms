@@ -1,15 +1,15 @@
 import AbstractCollection from '@jsonSchemaFormsDB/core/base/abstract.collection';
 
 
-export default class UserPersonInfoCollection extends AbstractCollection {
+export default class UserUsersCollection extends AbstractCollection {
 
     initialize() {
         super.initialize();
-        this.collectionName = 'jsf_user_person_info';
+        this.collectionName = 'jsf_user_users';
     }
 
 }
 
 export {
-    UserPersonInfoCollection
+    UserUsersCollection
 };

@@ -8,4 +8,6 @@ const apiRoutePrefix = global.SERVER.CONSTANTS.API_ROUTE_PREFIX;
     router.[HTTP_METHOD](`${apiRoutePrefix}/user/auth/{action-name}/:?param1/:?param2`, requestHandler);
 
 ********************/
+router.get(`${apiRoutePrefix}/user/auth/login`, requestHandler);
+router.get(`${apiRoutePrefix}/user/auth/logout`, requestHandler);
         
