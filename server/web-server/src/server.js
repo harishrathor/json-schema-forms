@@ -20,6 +20,7 @@ const Router = express.Router();
 
 import Handler from "@coreModule/classes/request-handler.class";
 import sessionConfig from '@configs/session.config';
+import LoggerService from '@coreModule/services/logger.service';
 const MongoStore = require('connect-mongo')(session);
 
 const globalValues = {
@@ -32,6 +33,7 @@ const globalValues = {
 	isDev			: function() { return process.env.NODE_ENV === 'development'; },
 	isProd			: function() { return process.env.NODE_ENV === 'production'; },
 	isStaging			: function() { return process.env.NODE_ENV === 'staging'; },
+	LOGGER: 		new LoggerService()
 };
 Object.assign(global.SERVER, globalValues);
 
@@ -40,6 +42,7 @@ require("@routes");
 const db = require('@db');
 
 const PORT = process.env.port || 5000;
+
 
 
 app.use(bodyParser.json());
@@ -55,41 +58,44 @@ app.use(helmet());
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
 
+app.use(express.static(SERVER.PATHS.CLIENT_ROOT));
+
 
 if (SERVER.isDev()) {
 	app.use(logger('dev'));
 }
 
-
 db.default.then(() => {
-	console.log('Promise Resolved.');
 	sessionConfig.store = new MongoStore({ db: global.SERVER.DB.CONNECTION });
 	app.use(
 		session(
 			sessionConfig
 		)
 	)
-	.use(express.static(SERVER.PATHS.CLIENT_ROOT))
 	.use(Router);
 	startServer();
 }).catch((err) => {
-	console.log('Error in DB connection.', err);
+	SERVER.LOGGER.logInfo('Error in DB connection.').logError(err);
 	startServer();
 });
+
+let serverRunning = false;
+
 function startServer() {
-	app.listen(PORT, err => {
-		if (err) {
-			console.log("Error in running web server.", err);
-		} else {
-			console.log(`Web(${process.env.NODE_ENV}) Server running at port ${PORT}.`);
-		}
-	});
+	if (!serverRunning) {
+		app.listen(PORT, err => {
+			if (err) {
+				console.log("Error in running web server.", err);
+			} else {
+				console.log(`Web(${process.env.NODE_ENV}) Server running at port ${PORT}.`);
+				serverRunning = true;
+			}
+		});
+	}
 }
 
-
-
 /*  setTimeout(function() {
-	require('./file-generator.class');
+	require('@coreModule/classes/file-generator.class');
 }, 5000); */
 
 /* import CryptoService from '@coreModule/services/crypto.service';

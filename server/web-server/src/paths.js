@@ -9,23 +9,25 @@ Note: Please do not edit it. This file is written by server.
 import moduleAliase from 'module-alias';
 import path from 'path';
 
-const rootDir = __dirname;
+const srcRootDir = __dirname;
+const rootDir = path.resolve(srcRootDir, '..');
 
-const config = path.join(rootDir, 'configs');
-const clientRoot = path.join(rootDir, '..', '..','..','web-client', 'dist', 'json-form-generator-client');
-const shared = path.join(rootDir, 'shared');
-const modules = path.join(rootDir, 'modules');
-const routes = path.join(rootDir, 'routes');
-const db = path.join(rootDir, 'db');
-const jsonSchemaFormsDB = path.join(rootDir, 'db', 'json_schema_forms');
+const config = path.join(srcRootDir, 'configs');
+const clientRoot = path.join(srcRootDir, '..', '..','..','web-client', 'dist', 'json-form-generator-client');
+const shared = path.join(srcRootDir, 'shared');
+const modules = path.join(srcRootDir, 'modules');
+const routes = path.join(srcRootDir, 'routes');
+const db = path.join(srcRootDir, 'db');
+const jsonSchemaFormsDB = path.join(srcRootDir, 'db', 'json_schema_forms');
 
 
-const apiModule = path.join(rootDir, 'modules', 'api');
-const coreModule = path.join(rootDir, 'modules', 'core');
-const userModule = path.join(rootDir, 'modules', 'user');
+const apiModule = path.join(srcRootDir, 'modules', 'api');
+const coreModule = path.join(srcRootDir, 'modules', 'core');
+const userModule = path.join(srcRootDir, 'modules', 'user');
 
 moduleAliase.addAliases({
     '@root'         	: rootDir,
+    '@srcRoot'          : srcRootDir,
     '@configs'      	: config,
     '@clientRoot'    	: clientRoot,
     '@shared'         	: shared,
@@ -41,7 +43,8 @@ moduleAliase.addAliases({
 let PATHS;
     
 export default PATHS = {
-    'ROOT'  			    	: rootDir,
+    'ROOT'  			    : rootDir,
+    'SRC_ROOT'              : srcRootDir,
     'CONFIGS'			    : config,
     'MODULES'			    : modules,
     'CLIENT_ROOT'		  	: clientRoot,

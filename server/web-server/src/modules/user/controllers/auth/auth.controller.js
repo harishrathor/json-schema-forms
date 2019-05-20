@@ -11,25 +11,21 @@ export default class AuthController extends AbstractController {
     loginAction() {
         this.req.session.username = 'harishrathor';
         const userPersonInfoCollection = new UserUsersCollection();
-        userPersonInfoCollection.collection.then((collection) => {
-            const result = collection.insertOne({
-                name: 'Harish Rathor',
-              //  email: 'harishrathor@gmail.com',
-                gender: 'M',
-                username: 'harishrathor',
-                password: 'mypassword'
-            }).then((user) => {
-                //console.log(user);
-                collection.find().count().then((count) => {
-                    this.responseHandler.sendResponse('text', 'Logged In successfully. Total insertion count: ' + count, true);
-                }).catch((err) => {
-                    console.log('Error in fetching count', err);
-                });
+        userPersonInfoCollection.insert({
+            name: 'Harish Rathor',
+          //  email: 'harishrathor@gmail.com',
+            gender: 'M',
+            username: 'harishrathor',
+            password: 'mypassword'
+        }).then((user) => {
+            userPersonInfoCollection.find().count().then((count) => {
+                this.responseHandler.sendResponse('text', 'Logged In successfully. Total insertion count: ' + count, true);
+                SERVER.LOGGER.logInfo('User count:', count);
             }).catch((err) => {
-                console.log("Error in inserting user.", err);
+                SERVER.LOGGER.logInfo('Error in fetching count').logError(err);
             });
         }).catch((err) => {
-            console.log(err);
+            SERVER.LOGGER.logError(err);
         });
     }
 

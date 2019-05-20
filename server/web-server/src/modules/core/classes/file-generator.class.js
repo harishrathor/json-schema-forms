@@ -290,25 +290,29 @@ const ${moduleName}Module = path.join(modulesDir, '${moduleName}');`;
 Note: Please do not edit it. This file is written by server.
 
 */
-        
+
+
+
 import moduleAliase from 'module-alias';
 import path from 'path';
 
-const rootDir = __dirname;
+const srcRootDir = __dirname;
+const rootDir = path.resolve(srcRootDir, '..');
 
-const config = path.join(rootDir, 'configs');
-const clientRoot = path.join(rootDir, '..', '..','..','web-client', 'dist', 'json-form-generator-client');
-const shared = path.join(rootDir, 'shared');
-const modules = path.join(rootDir, 'modules');
-const routes = path.join(rootDir, 'routes');
-const db = path.join(rootDir, 'db');
-const jsonSchemaFormsDB = path.join(rootDir, 'db', 'json_schema_forms');
-const modulesDir = path.join(rootDir, 'modules');
-
+const config = path.join(srcRootDir, 'configs');
+const clientRoot = path.join(srcRootDir, '..', '..','..','web-client', 'dist', 'json-form-generator-client');
+const shared = path.join(srcRootDir, 'shared');
+const modules = path.join(srcRootDir, 'modules');
+const routes = path.join(srcRootDir, 'routes');
+const db = path.join(srcRootDir, 'db');
+const jsonSchemaFormsDB = path.join(srcRootDir, 'db', 'json_schema_forms');
+const modulesDir = path.join(srcRootDir, 'modules);
+        
 ${pathsVar}
 
 moduleAliase.addAliases({
     '@root'         	: rootDir,
+    '@srcRoot'          : srcRootDir,
     '@configs'      	: config,
     '@clientRoot'    	: clientRoot,
     '@shared'         	: shared,
@@ -321,7 +325,8 @@ moduleAliase.addAliases({
 let PATHS;
     
 export default PATHS = {
-    'ROOT'  			    	: rootDir,
+    'ROOT'  			    : rootDir,
+    'SRC_ROOT'              : srcRootDir,
     'CONFIGS'			    : config,
     'MODULES'			    : modules,
     'CLIENT_ROOT'		  	: clientRoot,
@@ -519,10 +524,10 @@ export {
 
 
 
-/* 
-const generater = new FileGenerator();
+
+const generater = new FileGeneratorClass();
 //generater.generateModule('api');
-generater.generateController('api', 'form-schema'); */
+//generater.generateService('core', 'logger');
 /* 
 const generater = new FileGeneratorClass();
 const moduleName = 'test6';
