@@ -131,7 +131,7 @@ class RequestHandlerClass extends AbstractClass {
                         responseHandler.sendResponse('text', 'Unauthorized file access.', true, 401);
                     }
 
-                } else if (routeIdentifier === 'api' && url.length > 5 && (userAuthorized || (!userAuthorized && url === '/api/user/auth/login'))){
+                } else if (routeIdentifier === 'api' && url.length > 5 && (userAuthorized || (!userAuthorized && url.indexOf('/api/user/auth/login') === 0))){
 
                     var methodName = req.method;
                     var handlerMethod = `_${methodName}Handler`;

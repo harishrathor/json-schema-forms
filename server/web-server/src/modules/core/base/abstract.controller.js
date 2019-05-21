@@ -7,6 +7,18 @@ export default class AbstractController {
         this.initialize();
     }
 
+    get reqParams() {
+        return this.req.params;
+    }
+
+    get reqQuery() {
+        return this.req.query;
+    }
+
+    get reqBody() {
+        return this.req.body;
+    }
+
     initialize() {}
 
 }

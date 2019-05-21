@@ -7,34 +7,47 @@ export default class CryptoService extends AbstractService {
     initialize() {
         super.initialize();
         this.cryptoJS = CryptoJS;
-        this._secretKey = null;
+        this._secretKey = '__eEdS7oY1ECqsEaXgNpNR__';
+        /*  this._secretKey = '__';
         this._plainText = null;
         this._cipherText = null;
-        this._encryptedPlainText = null;
+        this._encryptedPlainText = null; */
     }
 
-    get encryptedPlainText() {
+    /* get encryptedPlainText() {
         return this._encryptedPlainText;
+    } */
+
+    encrypt(plainText, secretKey = null) {
+        if (!secretKey) {
+            secretKey = this.secretKey;
+        }
+        var ciphertext = this.cryptoJS.AES.encrypt(plainText, secretKey);
+        return ciphertext.toString();
     }
 
-    encrypt() {
-        var ciphertext = this.cryptoJS.AES.encrypt(this.plainText, this.secretKey);
-        this.cipherText = ciphertext;
-        this._encryptedPlainText = ciphertext.toString();
-        return this._encryptedPlainText;
-    }
-
-    decrypt() {
-        var bytes = this.cryptoJS.AES.decrypt(this.cipherText.toString(), this.secretKey);
+    decrypt(ecryptedText, secretKey = null) {
+        if (!secretKey) {
+            secretKey = this.secretKey;
+        }
+        var bytes = this.cryptoJS.AES.decrypt(ecryptedText, secretKey);
         var plaintext = bytes.toString(this.cryptoJS.enc.Utf8);
         return plaintext;
     }
+    
+    getMD5Hash(plainText) {
+        return this.cryptoJS.MD5(plainText).toString(this.cryptoJS.enc.Base64);
+    }
 
-    get secretKey() {
+    getSHA1Hash(plainText) {
+        return this.cryptoJS.SHA1(plainText).toString(this.cryptoJS.enc.Base64);
+    }
+
+     get secretKey() {
         return this._secretKey;
     }
 
-    set secretKey(key) {
+ /*   set secretKey(key) {
         this._secretKey = key;
     }
 
@@ -52,7 +65,7 @@ export default class CryptoService extends AbstractService {
 
     set cipherText(text) {
         this._cipherText = text;
-    }
+    } */
 
 }
 
