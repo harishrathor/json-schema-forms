@@ -43,8 +43,6 @@ const db = require('@db');
 
 const PORT = process.env.port || 5000;
 
-
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -59,7 +57,6 @@ app.use(helmet());
 app.use(cors());
 
 app.use(express.static(SERVER.PATHS.CLIENT_ROOT));
-
 
 if (SERVER.isDev()) {
 	app.use(logger('dev'));

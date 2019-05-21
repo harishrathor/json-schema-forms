@@ -163,6 +163,7 @@ export default class ${collectionClassName} extends AbstractCollection {
     initialize() {
         super.initialize();
         this.collectionName = '${this.getDBActualCollectionName(moduleName, collectionName)}';
+        this.postInit();
     }
 
 }

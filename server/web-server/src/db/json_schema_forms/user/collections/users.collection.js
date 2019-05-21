@@ -6,7 +6,7 @@ export default class UserUsersCollection extends AbstractCollection {
     initialize() {
         super.initialize();
         this.collectionName = 'jsf_user_users';
-        super.postInit();
+        this.postInit();
     }
 
 }

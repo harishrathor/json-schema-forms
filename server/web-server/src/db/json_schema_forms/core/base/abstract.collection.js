@@ -8,7 +8,6 @@ export default class AbstractCollection {
 
     initialize() {
         this.collectionName = '';
-        
     }
 
     postInit() {
@@ -18,127 +17,313 @@ export default class AbstractCollection {
     }
 
     insert() {
-		return this.collection.insert.apply(this.collection, arguments);
+		try {
+			return this.collection.insert.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	remove() {
-		return this.collection.remove.apply(this.collection, arguments);
+		try {
+			return this.collection.remove.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	rename() {
-		return this.collection.rename.apply(this.collection, arguments);
+		try {
+			return this.collection.rename.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	save() {
-		return this.collection.save.apply(this.collection, arguments);
+		try {
+			return this.collection.save.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	update() {
-		return this.collection.update.apply(this.collection, arguments);
+		try {
+			return this.collection.update.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	distinct() {
-		return this.collection.distinct.apply(this.collection, arguments);
+		try {
+			return this.collection.distinct.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	count() {
-		return this.collection.count.apply(this.collection, arguments);
+		try {
+			return this.collection.count.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	drop() {
-		return this.collection.drop.apply(this.collection, arguments);
+		try {
+			return this.collection.drop.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	findAndModify() {
-		return this.collection.findAndModify.apply(this.collection, arguments);
+		try {
+			return this.collection.findAndModify.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	findAndRemove() {
-		return this.collection.findAndRemove.apply(this.collection, arguments);
+		try {
+			return this.collection.findAndRemove.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	find() {
-		return this.collection.find.apply(this.collection, arguments);
+		try {
+			return this.collection.find.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	findOne() {
-		return this.collection.findOne.apply(this.collection, arguments);
+		try {
+			return this.collection.findOne.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	createIndex() {
-		return this.collection.createIndex.apply(this.collection, arguments);
+		try {
+			return this.collection.createIndex.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	ensureIndex() {
-		return this.collection.ensureIndex.apply(this.collection, arguments);
+		try {
+			return this.collection.ensureIndex.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	indexInformation() {
-		return this.collection.indexInformation.apply(this.collection, arguments);
+		try {
+			return this.collection.indexInformation.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	dropIndex() {
-		return this.collection.dropIndex.apply(this.collection, arguments);
+		try {
+			return this.collection.dropIndex.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	dropAllIndexes() {
-		return this.collection.dropAllIndexes.apply(this.collection, arguments);
+		try {
+			return this.collection.dropAllIndexes.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	reIndex() {
-		return this.collection.reIndex.apply(this.collection, arguments);
+		try {
+			return this.collection.reIndex.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	mapReduce() {
-		return this.collection.mapReduce.apply(this.collection, arguments);
+		try {
+			return this.collection.mapReduce.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	group() {
-		return this.collection.group.apply(this.collection, arguments);
+		try {
+			return this.collection.group.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	options() {
-		return this.collection.options.apply(this.collection, arguments);
+		try {
+			return this.collection.options.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	isCapped() {
-		return this.collection.isCapped.apply(this.collection, arguments);
+		try {
+			return this.collection.isCapped.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	indexExists() {
-		return this.collection.indexExists.apply(this.collection, arguments);
+		try {
+			return this.collection.indexExists.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	geoNear() {
-		return this.collection.geoNear.apply(this.collection, arguments);
+		try {
+			return this.collection.geoNear.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	geoHaystackSearch() {
-		return this.collection.geoHaystackSearch.apply(this.collection, arguments);
+		try {
+			return this.collection.geoHaystackSearch.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	indexes() {
-		return this.collection.indexes.apply(this.collection, arguments);
+		try {
+			return this.collection.indexes.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	aggregate() {
-		return this.collection.aggregate.apply(this.collection, arguments);
+		try {
+			return this.collection.aggregate.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	stats() {
-		return this.collection.stats.apply(this.collection, arguments);
+		try {
+			return this.collection.stats.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	initializeUnorderedBulkOp() {
-		return this.collection.initializeUnorderedBulkOp.apply(this.collection, arguments);
+		try {
+			return this.collection.initializeUnorderedBulkOp.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	initializeOrderedBulkOp() {
-		return this.collection.initializeOrderedBulkOp.apply(this.collection, arguments);
+		try {
+			return this.collection.initializeOrderedBulkOp.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 
 	parallelCollectionScan() {
-		return this.collection.parallelCollectionScan.apply(this.collection, arguments);
+		try {
+			return this.collection.parallelCollectionScan.apply(this.collection, arguments);
+		} catch(error) {
+			SERVER.LOGGER.logError(error);
+			return null;
+		}
+		
 	}
 }
 
@@ -147,4 +332,4 @@ export {
 };
 
 
-//["Constructor","insert","remove","rename","save","update","distinct","count","drop","findAndModify","findAndRemove","find","findOne","createIndex","ensureIndex","indexInformation","dropIndex","dropAllIndexes","reIndex","mapReduce","group","options","isCapped","indexExists","geoNear","geoHaystackSearch","indexes","aggregate","stats","initializeUnorderedBulkOp","initializeOrderedBulkOp","parallelCollectionScan"]
+//["insert","remove","rename","save","update","distinct","count","drop","findAndModify","findAndRemove","find","findOne","createIndex","ensureIndex","indexInformation","dropIndex","dropAllIndexes","reIndex","mapReduce","group","options","isCapped","indexExists","geoNear","geoHaystackSearch","indexes","aggregate","stats","initializeUnorderedBulkOp","initializeOrderedBulkOp","parallelCollectionScan"]
