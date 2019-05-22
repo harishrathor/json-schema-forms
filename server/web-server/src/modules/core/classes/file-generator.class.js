@@ -8,7 +8,8 @@ export default class FileGeneratorClass extends AbstractClass {
 
     initialize() {
         super.initialize();
-        this.rootDir = path.join(global.SERVER.PATHS.ROOT, '..', 'src');
+        this.rootDir = SERVER.PATHS.ROOT; //path.join(global.SERVER.PATHS.ROOT, '..', 'src');
+        this.srcRootDir = path.join(this.rootDir, 'src');
         this.dbName = 'json_schema_forms';
     }
 
@@ -234,7 +235,7 @@ export const controllers = {${controllersClassValue}
     }
 
     _getRoutingFileContent() {
-        const moduleDir = path.join(this.rootDir, 'modules');
+        const moduleDir = path.join(this.srcRootDir, 'modules');
         const modulesDirs = fs.readdirSync(moduleDir, {
             withFileTypes: true
         });
@@ -263,12 +264,12 @@ import '@${moduleName}Module/${moduleName}.module.routing';`;
     }
 
     _getPathsFileContent() {
-        //const pathsFile = paht.join(this.rootDir, 'paths.js');
+        //const pathsFile = paht.join(this.srcRootDir, 'paths.js');
         let alias = ``;
         let strPath = ``;
         let pathsVar =  ``;
 
-        const moduleDir = path.join(this.rootDir, 'modules');
+        const moduleDir = path.join(this.srcRootDir, 'modules');
         const modulesDirs = fs.readdirSync(moduleDir, {
             withFileTypes: true
         });
@@ -307,7 +308,9 @@ const modules = path.join(srcRootDir, 'modules');
 const routes = path.join(srcRootDir, 'routes');
 const db = path.join(srcRootDir, 'db');
 const jsonSchemaFormsDB = path.join(srcRootDir, 'db', 'json_schema_forms');
-const modulesDir = path.join(srcRootDir, 'modules);
+const modulesDir = path.join(srcRootDir, 'modules');
+const assetsPath = path.join(clientRoot, 'assets');
+const privateAssetsPath = path.join(assetsPath, 'private');
         
 ${pathsVar}
 
@@ -316,6 +319,8 @@ moduleAliase.addAliases({
     '@srcRoot'          : srcRootDir,
     '@configs'      	: config,
     '@clientRoot'    	: clientRoot,
+    '@assets'           : assetsPath,
+    '@privateAssets'    : privateAssetsPath,
     '@shared'         	: shared,
     '@routes'         	: routes, 
     '@modules'			: modules,
@@ -331,6 +336,8 @@ export default PATHS = {
     'CONFIGS'			    : config,
     'MODULES'			    : modules,
     'CLIENT_ROOT'		  	: clientRoot,
+    'ASSETS'                : assetsPath,
+    'PRIVATE_ASSETS'        : privateAssetsPath,
     'SHARED'			    : shared,
     'ROUTES'     			: routes,
     'DB'					: db,${strPath}
@@ -343,7 +350,7 @@ export { PATHS };
     }
 
     getModuleDir(moduleName) {
-        return path.join(this.rootDir, 'modules', moduleName);
+        return path.join(this.srcRootDir, 'modules', moduleName);
     }
 
     getControllerDir(moduleName, controllerName) {
@@ -372,21 +379,22 @@ export { PATHS };
     }
 
     getDBModuleDir(moduleName) {
-        const dbFolder = path.join(`${this.rootDir}`, 'db', this.dbName);
+        const dbFolder = path.join(`${this.srcRootDir}`, 'db', this.dbName);
         return path.join(dbFolder, moduleName);
     }
 
-    _updateRoutingFile() {
-        const routingFile = path.join(this.rootDir, 'routes', 'index.js');
+    updateRoutingFile() {
+        const routingFile = path.join(this.srcRootDir, 'routes', 'index.js');
         const routingFileContent = this._getRoutingFileContent();
         fs.unlinkSync(routingFile);
         this.createAndWriteFile(routingFile, 'F', routingFileContent);
         console.log('Updated Routing File.');
     }
 
-    _updatePathsFile() {
-        const file = path.join(this.rootDir,  'paths.js');
+    updatePathsFile() {
+        const file = path.join(this.srcRootDir,  'paths.js');
         const fileContent = this._getPathsFileContent();
+        console.log('file', file);
         fs.unlinkSync(file);
         this.createAndWriteFile(file, 'F', fileContent);
         console.log('Updated Paths File.');
@@ -415,13 +423,13 @@ export { PATHS };
                 const moduleDataFileContent = this._getModuleDataFileContent(moduleName);
                 this.createAndWriteFile(moduleDataFile, 'F', moduleDataFileContent);
                 console.log('Created Module.');
-                this._updatePathsFile();
-                this._updateRoutingFile();
+                this.updatePathsFile();
+                this.updateRoutingFile();
             }
         }
     }
 
-    _updateModuleRoutingFile(moduleName) {
+    updateModuleRoutingFile(moduleName) {
         const moduleDir = this.getModuleDir(moduleName);
         const routingFile = path.join(moduleDir, `${moduleName}.module.routing.js`);
         const routingFileContent = this._getModuleRoutingFileContent(moduleName);
@@ -430,7 +438,7 @@ export { PATHS };
         console.log('Updated Module Routing File.');
     }
 
-    _updateModuleDataFile(moduleName) {
+    updateModuleDataFile(moduleName) {
         const moduleDir = this.getModuleDir(moduleName);
         const file = path.join(moduleDir, `${moduleName}.module.data.js`);
         const fileContent = this._getModuleDataFileContent(moduleName);
@@ -449,8 +457,8 @@ export { PATHS };
                 const routingDefaultContent = this._getControllerRoutingFileDefaultContent(moduleName, controllerName); 
                 this.createAndWriteFile(controllerRoutingFile, 'F', routingDefaultContent);
                 console.log('Created Controller.');
-                this._updateModuleRoutingFile(moduleName);
-                this._updateModuleDataFile(moduleName);
+                this.updateModuleRoutingFile(moduleName);
+                this.updateModuleDataFile(moduleName);
             }
         }
 
@@ -527,6 +535,7 @@ export {
 
 
 const generater = new FileGeneratorClass();
+generater.updatePathsFile();
 //generater.generateModule('api');
 //generater.generateService('core', 'logger');
 /* 

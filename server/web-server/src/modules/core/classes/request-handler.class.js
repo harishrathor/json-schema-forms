@@ -1,6 +1,4 @@
-
 import AbstractClass from '@coreModule/base/abstract.class';
-
 import * as path from 'path';
 import utils from '@shared/utils.class'; 
 import ResponseHandlerClass from '@coreModule/classes/response-handler.class';

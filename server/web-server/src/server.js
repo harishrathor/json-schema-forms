@@ -17,7 +17,6 @@ import helmet from 'helmet';
 const app = express();
 const Router = express.Router();
 
-
 import Handler from "@coreModule/classes/request-handler.class";
 import sessionConfig from '@configs/session.config';
 import LoggerService from '@coreModule/services/logger.service';

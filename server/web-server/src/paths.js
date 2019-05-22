@@ -1,3 +1,4 @@
+
 /*
 
 Note: Please do not edit it. This file is written by server.
@@ -19,17 +20,22 @@ const modules = path.join(srcRootDir, 'modules');
 const routes = path.join(srcRootDir, 'routes');
 const db = path.join(srcRootDir, 'db');
 const jsonSchemaFormsDB = path.join(srcRootDir, 'db', 'json_schema_forms');
+const modulesDir = path.join(srcRootDir, 'modules');
+const assetsPath = path.join(clientRoot, 'assets');
+const privateAssetsPath = path.join(assetsPath, 'private');
+        
 
-
-const apiModule = path.join(srcRootDir, 'modules', 'api');
-const coreModule = path.join(srcRootDir, 'modules', 'core');
-const userModule = path.join(srcRootDir, 'modules', 'user');
+const apiModule = path.join(modulesDir, 'api');
+const coreModule = path.join(modulesDir, 'core');
+const userModule = path.join(modulesDir, 'user');
 
 moduleAliase.addAliases({
     '@root'         	: rootDir,
     '@srcRoot'          : srcRootDir,
     '@configs'      	: config,
     '@clientRoot'    	: clientRoot,
+    '@assets'           : assetsPath,
+    '@privateAssets'    : privateAssetsPath,
     '@shared'         	: shared,
     '@routes'         	: routes, 
     '@modules'			: modules,
@@ -48,6 +54,8 @@ export default PATHS = {
     'CONFIGS'			    : config,
     'MODULES'			    : modules,
     'CLIENT_ROOT'		  	: clientRoot,
+    'ASSETS'                : assetsPath,
+    'PRIVATE_ASSETS'        : privateAssetsPath,
     'SHARED'			    : shared,
     'ROUTES'     			: routes,
     'DB'					: db,
