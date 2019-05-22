@@ -250,7 +250,7 @@ const router = global.SERVER.ROUTER;
 const requestHandler = global.SERVER.REQUEST_HANDLER;
 
 router.get('/', requestHandler);
-router.get('/file/assets/*', requestHandler);
+router.get('/assets/*', requestHandler);
 `;
         for(const dirent of modulesDirs) {
             if(dirent.isDirectory()) {

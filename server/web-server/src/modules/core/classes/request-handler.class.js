@@ -100,7 +100,7 @@ class RequestHandlerClass extends AbstractClass {
     }
 
     _isValidAuthorizedFilePath(filePathParts) {
-        return (this._isValidFilePath(filePathParts) && filePathParts[2] !== 'public');
+        return (this._isValidFilePath(filePathParts) && filePathParts[1] !== 'private');
     }
 
     _isValidFileName(fileName) {
@@ -109,7 +109,7 @@ class RequestHandlerClass extends AbstractClass {
     }
 
     _isValidFilePath(filePathParts) {
-        return (filePathParts[0] === 'file' && filePathParts[1] === 'assets' && this._isValidFileName(filePathParts[filePathParts.length - 1]));
+        return (filePathParts[0] === 'assets' && this._isValidFileName(filePathParts[filePathParts.length - 1]));
     }
 
     handle(req, res) {
@@ -144,14 +144,12 @@ class RequestHandlerClass extends AbstractClass {
 
                     }
 
-                } else if(routeIdentifier === 'api') {
+                } else if(routeIdentifier === 'api' || routeIdentifier === 'assets') {
                     responseHandler.sendResponse('text', 'Unauthorized request..', true, 401);
 
                 } else {
                     let filePath = '/index.html';
-                    if (_this._isValidFilePath(urlParts)) {
-                        filePath = url.replace('\/file', '');
-                    } else if (_this._isValidFileName(urlParts[urlParts.length - 1])) {
+                    if (_this._isValidFilePath(urlParts) || _this._isValidFileName(urlParts[urlParts.length - 1])) {
                         filePath = url;
                     }
                     responseHandler.sendResponse('file', filePath, true);   
