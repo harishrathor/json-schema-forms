@@ -17,16 +17,16 @@ export default class AuthController extends AbstractController {
         .then(count => {
             if(count === 1) {
                 this.req.session.username = this.reqParams.username;
-                this.responseHandler.sendResponse('text', 'Logged In successfully.', true);
+                this.responseHandler.end('Logged In successfully.');
             } else if (count > 1) {
-                this.responseHandler.sendResponse('text', 'More than one user exist.', true);
+                this.responseHandler.end( 'More than one user exist.');
             } else {
-                this.responseHandler.sendResponse('text', 'User does exists.', true);
+                this.responseHandler.end('User does exists.');
             }
         }) 
         .catch(error => {
             SERVER.LOGGER.logError(error);
-            this.responseHandler.sendResponse('text', 'Error in validating user.', true);
+            this.responseHandler.end( 'Error in validating user.');
         }) 
         ;
       /*   const id = parseInt(Math.random() * 10000);
@@ -40,25 +40,25 @@ export default class AuthController extends AbstractController {
             phone: phone
         }).then((user) => {
             usersCollection.find().count().then((count) => {
-                this.responseHandler.sendResponse('text', 'Logged In successfully. Total insertion count: ' + count, true);
+                this.responseHandler.end( 'Logged In successfully. Total insertion count: ' + count);
                 SERVER.LOGGER.logInfo('User count:', count);
             }).catch((err) => {
                 SERVER.LOGGER.logInfo('Error in fetching count').logError(err);
-                this.responseHandler.sendResponse('text', 'Error in counting user.');
+                this.responseHandler.end( 'Error in counting user.');
             });
         }).catch((err) => {
             SERVER.LOGGER.logError(err);
-            this.responseHandler.sendResponse('text', 'Error in creating user.');
+            this.responseHandler.end( 'Error in creating user.');
         }); */
     }
 
     logoutAction() {
         this.req.session.destroy();
-        this.responseHandler.sendResponse('text', 'Logged Out successfully', true);
+        this.responseHandler.end( 'Logged Out successfully');
     }
 
     testAction() {
-        this.responseHandler.sendResponse('text', 'Test Action.');
+        this.responseHandler.end( 'Test Action.');
     }
 
 }

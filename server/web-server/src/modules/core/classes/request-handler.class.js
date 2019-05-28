@@ -31,7 +31,7 @@ class RequestHandlerClass extends AbstractClass {
         if (!this._modules[moduleName]) {
             const modulePath = path.join(SERVER.PATHS.MODULES, moduleName, moduleName + '.module.js');
             if (!fs.existsSync(modulePath)) {
-                responseHandler.sendResponse('text', '1:' + errMessage);
+                responseHandler.end('text', '1:' + errMessage);
                 return;
             }
             const fileModule = require(modulePath);
@@ -42,7 +42,7 @@ class RequestHandlerClass extends AbstractClass {
                 moduleInstance = new moduleClass;
                 this._modules[moduleName] = moduleInstance;
             } else {
-                responseHandler.sendResponse('text', '2:' + errMessage);
+                responseHandler.end('text', '2:' + errMessage);
                 return;
             }
         } else {
@@ -54,20 +54,19 @@ class RequestHandlerClass extends AbstractClass {
             controllerInstance.req = req;
             controllerInstance.res = res;
             controllerInstance.responseHandler = responseHandler;
-            console.log('controllerName', controllerName);
             if (!controllerInstance) {
-                responseHandler.sendResponse('text', '3:' + errMessage);
+                responseHandler.end('text', '3:' + errMessage);
                 return ;
             }
             
             const actionMethodName = utils.toMethodName(action, '-') + 'Action';
             if (!controllerInstance[actionMethodName]) {
-                responseHandler.sendResponse('text', errMessage);
+                responseHandler.end('text', errMessage);
                 return ;
             }
             controllerInstance[actionMethodName](req, res, responseHandler);
         } else {
-            responseHandler.sendResponse('text',   '4:' + errMessage);
+            responseHandler.end('text',   '4:' + errMessage);
             return;
         }
     }
@@ -76,7 +75,7 @@ class RequestHandlerClass extends AbstractClass {
         try {
             const handlerInfo = this._getHandlerInfo(req);
             if (!handlerInfo.module || !handlerInfo.controller || !handlerInfo.action) {
-                responseHandler.sendResponse('text', 'Invalid URL.', true);
+                responseHandler.end('Invalid URL.');
                 return;
             }
             const moduleName = handlerInfo.module;
@@ -118,15 +117,15 @@ class RequestHandlerClass extends AbstractClass {
             const responseHandler = new ResponseHandlerClass(req, res);
 
             if (url === '/') {
-                responseHandler.sendResponse('file', undefined, true);
+                responseHandler.sendFile().end();
             } else {
                 const userAuthorized = isAuthorizedUser(req, res);
                 if (_this._isValidAuthorizedFilePath(urlParts)) {
                     if (userAuthorized) {
                         const filePath = url.substr(5)
-                        responseHandler.sendResponse('file', filePath, true);
+                        responseHandler.sendFile(filePath).end();
                     } else {
-                        responseHandler.sendResponse('text', 'Unauthorized file access.', true, 401);
+                        responseHandler.status(401).end('Unauthorized file access.');
                     }
 
                 } else if (routeIdentifier === 'api' && url.length > 5 && (userAuthorized || (!userAuthorized && url.indexOf('/api/user/auth/login') === 0))){
@@ -135,7 +134,7 @@ class RequestHandlerClass extends AbstractClass {
                     var handlerMethod = `_${methodName}Handler`;
 
                     if (!_this[handlerMethod]) {
-                        responseHandler.sendResponse('text', `Currently ${methodName} request is not supported.`, true);
+                        responseHandler.end(`Currently ${methodName} request is not supported.`);
                     } else {
                     
                         _this[handlerMethod](req, res, responseHandler);
@@ -143,14 +142,14 @@ class RequestHandlerClass extends AbstractClass {
                     }
 
                 } else if(routeIdentifier === 'api' || routeIdentifier === 'assets') {
-                    responseHandler.sendResponse('text', 'Unauthorized request..', true, 401);
+                    responseHandler.status(401).end('Unauthorized request..');
 
                 } else {
                     let filePath = '/index.html';
                     if (_this._isValidFilePath(urlParts) || _this._isValidFileName(urlParts[urlParts.length - 1])) {
                         filePath = url;
                     }
-                    responseHandler.sendResponse('file', filePath, true);   
+                    responseHandler.sendFile(filePath).end();   
                 }
             }
             

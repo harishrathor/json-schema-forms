@@ -7,6 +7,10 @@ export default class FormSchemaController extends AbstractController {
         super.initialize();
     }
 
+    getFormSchemaAction() {
+        this.responseHandler.json(this.reqParams).end();
+    }
+
 }
 
 export {

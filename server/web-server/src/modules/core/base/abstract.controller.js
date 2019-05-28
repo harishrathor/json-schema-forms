@@ -11,13 +11,17 @@ export default class AbstractController {
         return this.req.params;
     }
 
-    get reqQuery() {
+    get reqQuery() {    
         return this.req.query;
     }
 
     get reqBody() {
         return this.req.body;
     }
+
+   /*  sendResponse(resMethodName, ...methodArguments) {
+        return this.responseHandler[resMethodName].apply(this.responseHandler, methodArguments);
+    } */
 
     initialize() {}
 
