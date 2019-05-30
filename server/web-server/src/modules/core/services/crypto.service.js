@@ -2,7 +2,7 @@
 import AbstractService from '@coreModule/base/abstract.service';
 import CryptoJS from 'crypto-js';
 
-export default class CryptoService extends AbstractService {
+class CryptoService extends AbstractService {
 
     initialize() {
         super.initialize();
@@ -72,4 +72,6 @@ export default class CryptoService extends AbstractService {
 export {
     CryptoService
 };
+
+export default new CryptoService();
         

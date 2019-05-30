@@ -22,6 +22,8 @@ import sessionConfig from '@configs/session.config';
 import LoggerService from '@coreModule/services/logger.service';
 const MongoStore = require('connect-mongo')(session);
 
+import cryptoService from '@coreModule/services/crypto.service';
+
 const globalValues = {
 	ENV 				: process.env.NODE_ENV,		
 	ROUTER          	: Router,
@@ -29,8 +31,8 @@ const globalValues = {
 	REQUEST_HANDLER 	: Handler.handle,
 	CONSTANTS			: { API_ROUTE_PREFIX: "/api" },
 	UTILS				: {},
-	isDev			: function() { return process.env.NODE_ENV === 'development'; },
-	isProd			: function() { return process.env.NODE_ENV === 'production'; },
+	isDev				: function() { return process.env.NODE_ENV === 'development'; },
+	isProd				: function() { return process.env.NODE_ENV === 'production'; },
 	isStaging			: function() { return process.env.NODE_ENV === 'staging'; },
 	LOGGER: 		new LoggerService()
 };
@@ -56,6 +58,7 @@ app.use(helmet());
 app.use(cors());
 
 app.use(express.static(SERVER.PATHS.CLIENT_ROOT));
+app.use(express.static(SERVER.PATHS.STATIC_FILES));
 
 if (SERVER.isDev()) {
 	app.use(logger('dev'));
@@ -70,7 +73,7 @@ db.default.then(() => {
 	)
 	.use(Router);
 	startServer();
-}).catch((err) => {
+}).catch(err => {
 	SERVER.LOGGER.logInfo('Error in DB connection.').logError(err);
 	startServer();
 });
@@ -90,12 +93,14 @@ function startServer() {
 	}
 }
 
-/*  setTimeout(function() {
-	require('@coreModule/classes/file-generator.class');
+console.log('Encrypted text:  ', cryptoService.encrypt('ssHw5oAJZSXaMVVnCM+DuQ==', 'VfYOR2/TCzUT9N4Mw7QoyA=='));
+ /* setTimeout(function() {
+	const fileGenerater = require('@coreModule/classes/file-generator.class');
+	const generater = new fileGenerater.FileGeneratorClass();
+	generater.generateService('user', 'user-api');
 }, 5000); */
 
-/* import CryptoService from '@coreModule/services/crypto.service';
-const crypto = new CryptoService();
+/* import crypto from '@coreModule/services/crypto.service';
 //console.log('crypto', crypto);
 crypto.plainText = 'Harish';
 crypto.secretKey = 'Rathor';

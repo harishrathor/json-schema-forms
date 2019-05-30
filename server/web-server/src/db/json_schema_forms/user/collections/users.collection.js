@@ -1,5 +1,5 @@
 import AbstractCollection from '@jsonSchemaFormsDB/core/base/abstract.collection';
-import CryptoService from '@coreModule/services/crypto.service';
+import cryptoService from '@coreModule/services/crypto.service';
 
 
 export default class UserUsersCollection extends AbstractCollection {
@@ -8,14 +8,13 @@ export default class UserUsersCollection extends AbstractCollection {
         super.initialize();
         this.collectionName = 'jsf_user_users';
         this.encryptionKey = '__DeqtfNDotuSBDXRGm4aX__';
-        this.cryptoService = new CryptoService();
         this.postInit();
     }
 
     _encryptPassword(userDataArr) {
         userDataArr.forEach(userData => {
             if (userData.password) {
-                userData.password = this.cryptoService.getMD5Hash(userData.password);
+                userData.password = cryptoService.getMD5Hash(userData.password);
             }
         });
     }
@@ -39,7 +38,7 @@ export default class UserUsersCollection extends AbstractCollection {
     }
 
     validateUsingUsernamePassword(username, password) {
-        const encryptedPassword = this.cryptoService.getMD5Hash(password);
+        const encryptedPassword = cryptoService.getMD5Hash(password);
         const query = {
             username,
             password: encryptedPassword

@@ -1,6 +1,6 @@
 
 import AbstractClass from '@coreModule/base/abstract.class';
-
+import path from 'path';
 import utils from '@shared/utils.class'; 
 
 export default class ResponseHandlerClass extends AbstractClass {
@@ -152,16 +152,23 @@ export default class ResponseHandlerClass extends AbstractClass {
 		return this._callResponseMethod('send', ...arguments);
 	}	
 
-	sendFile(filePath, ...restParams) {
+	sendFile(filePath, isServerStaticFile, isAbsolutePath, ...restParams) {
 		const request = this.req;
         const url = request.url;
         if (url === '/') {
             filePath = '/index.html';
         } else if(!filePath) {
             filePath = url;
-        } 
-        const fullFilePath = SERVER.PATHS.CLIENT_ROOT + filePath;
-		return this._callResponseMethod('sendFile', [fullFilePath, ...restParams]);
+		}
+		let fullFilePath = filePath;
+		if (!isAbsolutePath) {
+			if (isServerStaticFile) {
+				fullFilePath = path.join(SERVER.PATHS.STATIC_FILES, filePath);
+			} else {
+				fullFilePath = SERVER.PATHS.CLIENT_ROOT + filePath;
+			} 
+		}
+		return this._callResponseMethod.apply(this, ['sendFile', fullFilePath, ...restParams]);
 	}	
 
 	sendStatus() {
@@ -185,12 +192,17 @@ export default class ResponseHandlerClass extends AbstractClass {
 	}
 
 	_callResponseMethod(resMethodName, ...argsArr) {
-		let responseReturn = null;
-		if (this.beforeSendResponse.apply(this, [resMethodName, ...argsArr])) {
-			responseReturn = this.res[resMethodName](...argsArr);
+		try {
+			let responseReturn = null;
+			if (this.beforeSendResponse.apply(this, [resMethodName, ...argsArr])) {
+				responseReturn = this.res[resMethodName](...argsArr);
+			}
+			this.afterResponseSuccess = this.afterSendResponse.apply(this, [resMethodName, responseReturn, ...argsArr]);
+			return this;
+		} catch (error) {
+			SERVER.LOGGER.logError(error);
+			return this;
 		}
-		this.afterResponseSuccess = this.afterSendResponse.apply(this, [resMethodName, responseReturn, ...argsArr]);
-		return this;
 	}
 
 	afterSendResponse(resMethodName, resSuccess, ...argsArr) {

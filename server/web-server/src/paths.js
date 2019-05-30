@@ -23,6 +23,7 @@ const jsonSchemaFormsDB = path.join(srcRootDir, 'db', 'json_schema_forms');
 const modulesDir = path.join(srcRootDir, 'modules');
 const assetsPath = path.join(clientRoot, 'assets');
 const privateAssetsPath = path.join(assetsPath, 'private');
+const staticFiles = path.join(rootDir, 'static_files');
         
 
 const apiModule = path.join(modulesDir, 'api');
@@ -43,7 +44,8 @@ moduleAliase.addAliases({
     '@apiModule'		  	: apiModule,
     '@coreModule'		  	: coreModule,
     '@userModule'		  	: userModule,
-    '@jsonSchemaFormsDB': jsonSchemaFormsDB
+    '@jsonSchemaFormsDB': jsonSchemaFormsDB,
+    '@staticFiles'      : staticFiles
 });
 
 let PATHS;
@@ -62,7 +64,8 @@ export default PATHS = {
     'API_MODULE'		  	: apiModule,
     'CORE_MODULE'		  	: coreModule,
     'USER_MODULE'		  	: userModule,
-    'JSON_SCHEMA_FORMS_DB'  : jsonSchemaFormsDB
+    'JSON_SCHEMA_FORMS_DB'  : jsonSchemaFormsDB,
+    'STATIC_FILES'          : staticFiles
 };
 
 export { PATHS };

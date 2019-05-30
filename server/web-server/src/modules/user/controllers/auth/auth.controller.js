@@ -1,9 +1,9 @@
 
 import AbstractController from '@coreModule/base/abstract.controller';
 import UserUsersCollection from '@jsonSchemaFormsDB/user/collections/users.collection';
+import userApiService from '@userModule/services/user-api.service';
 
 // My user name : harish_6104, Password: harishrathor
-
 export default class AuthController extends AbstractController {
 
     initialize() {
@@ -17,6 +17,7 @@ export default class AuthController extends AbstractController {
         .then(count => {
             if(count === 1) {
                 this.req.session.username = this.reqParams.username;
+             //   userApiService.createUserAPIData("5ce44ba5cea47279e855b255");//Copy from NoSQLBooster for MongoDB free edition. This message does not appear if you are using a registered version.
                 this.responseHandler.end('Logged In successfully.');
             } else if (count > 1) {
                 this.responseHandler.end( 'More than one user exist.');

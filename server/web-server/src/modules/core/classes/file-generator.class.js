@@ -71,7 +71,7 @@ export {
         const content = `
 import AbstractService from '@coreModule/base/abstract.service';
 
-export default class ${controllerClassName} extends AbstractService {
+class ${controllerClassName} extends AbstractService {
 
     initialize() {
         super.initialize();
@@ -82,6 +82,8 @@ export default class ${controllerClassName} extends AbstractService {
 export {
     ${controllerClassName}
 };
+
+export default  new ${controllerClassName}();
         `;
         return content;
     }
@@ -311,6 +313,7 @@ const jsonSchemaFormsDB = path.join(srcRootDir, 'db', 'json_schema_forms');
 const modulesDir = path.join(srcRootDir, 'modules');
 const assetsPath = path.join(clientRoot, 'assets');
 const privateAssetsPath = path.join(assetsPath, 'private');
+const staticFiles = path.join(rootDir, 'static_files');
         
 ${pathsVar}
 
@@ -325,7 +328,8 @@ moduleAliase.addAliases({
     '@routes'         	: routes, 
     '@modules'			: modules,
     '@db'				: db,${alias}
-    '@jsonSchemaFormsDB': jsonSchemaFormsDB
+    '@jsonSchemaFormsDB': jsonSchemaFormsDB,
+    '@staticFiles'      : staticFiles
 });
 
 let PATHS;
@@ -341,7 +345,8 @@ export default PATHS = {
     'SHARED'			    : shared,
     'ROUTES'     			: routes,
     'DB'					: db,${strPath}
-    'JSON_SCHEMA_FORMS_DB'  : jsonSchemaFormsDB
+    'JSON_SCHEMA_FORMS_DB'  : jsonSchemaFormsDB,
+    'STATIC_FILES'          : staticFiles
 };
 
 export { PATHS };
@@ -413,7 +418,6 @@ export { PATHS };
                 this.createAndWriteFile(path.join(moduleDir, 'functions'),  'D');
                 this.createAndWriteFile(path.join(moduleDir, 'services'),  'D');
                 this.createAndWriteFile(path.join(moduleDir, 'helpers'),  'D');
-                
                 
                 const dbModulePath = this.getDBModuleDir(moduleName);
                 if (this.createAndWriteFile(dbModulePath,  'D')) {
@@ -535,7 +539,7 @@ export {
 
 
 const generater = new FileGeneratorClass();
-generater.updatePathsFile();
+//generater.updatePathsFile();
 //generater.generateModule('api');
 //generater.generateService('core', 'logger');
 /* 
