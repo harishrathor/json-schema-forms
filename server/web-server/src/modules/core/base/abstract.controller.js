@@ -1,26 +1,26 @@
 export default class AbstractController {
 
     constructor(req = null, res = null, responseHandler = null) {
-        this.req = req;
+        this.request = req;
         this.res = res;
-        this.responseHandler = responseHandler;
+        this.response = responseHandler;
         this.initialize();
     }
 
     get reqParams() {
-        return this.req.params;
+        return this.request.params;
     }
 
     get reqQuery() {    
-        return this.req.query;
+        return this.request.query;
     }
 
     get reqBody() {
-        return this.req.body;
+        return this.request.body;
     }
 
    /*  sendResponse(resMethodName, ...methodArguments) {
-        return this.responseHandler[resMethodName].apply(this.responseHandler, methodArguments);
+        return this.response[resMethodName].apply(this.responseHandler, methodArguments);
     } */
 
     initialize() {}

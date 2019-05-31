@@ -16,18 +16,18 @@ export default class AuthController extends AbstractController {
         .validateUsingUsernamePassword(this.reqParams.username, this.reqParams.password)
         .then(count => {
             if(count === 1) {
-                this.req.session.username = this.reqParams.username;
+                this.request.session.username = this.reqParams.username;
              //   userApiService.createUserAPIData("5ce44ba5cea47279e855b255");//Copy from NoSQLBooster for MongoDB free edition. This message does not appear if you are using a registered version.
-                this.responseHandler.end('Logged In successfully.');
+                this.response.end('Logged In successfully.');
             } else if (count > 1) {
-                this.responseHandler.end( 'More than one user exist.');
+                this.response.end( 'More than one user exist.');
             } else {
-                this.responseHandler.end('User does exists.');
+                this.response.end('User does exists.');
             }
         }) 
         .catch(error => {
             SERVER.LOGGER.logError(error);
-            this.responseHandler.end( 'Error in validating user.');
+            this.response.end( 'Error in validating user.');
         }) 
         ;
       /*   const id = parseInt(Math.random() * 10000);
@@ -41,25 +41,25 @@ export default class AuthController extends AbstractController {
             phone: phone
         }).then((user) => {
             usersCollection.find().count().then((count) => {
-                this.responseHandler.end( 'Logged In successfully. Total insertion count: ' + count);
+                this.response.end( 'Logged In successfully. Total insertion count: ' + count);
                 SERVER.LOGGER.logInfo('User count:', count);
             }).catch((err) => {
                 SERVER.LOGGER.logInfo('Error in fetching count').logError(err);
-                this.responseHandler.end( 'Error in counting user.');
+                this.response.end( 'Error in counting user.');
             });
         }).catch((err) => {
             SERVER.LOGGER.logError(err);
-            this.responseHandler.end( 'Error in creating user.');
+            this.response.end( 'Error in creating user.');
         }); */
     }
 
     logoutAction() {
-        this.req.session.destroy();
-        this.responseHandler.end( 'Logged Out successfully');
+        this.request.session.destroy();
+        this.response.end( 'Logged Out successfully');
     }
 
     testAction() {
-        this.responseHandler.end( 'Test Action.');
+        this.response.end( 'Test Action.');
     }
 
 }

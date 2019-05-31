@@ -51,9 +51,9 @@ class RequestHandlerClass extends AbstractClass {
 
         if (moduleInstance) {
             const controllerInstance = moduleInstance.getControllerInstance(controllerName);
-            controllerInstance.req = req;
+            controllerInstance.request = req;
             controllerInstance.res = res;
-            controllerInstance.responseHandler = responseHandler;
+            controllerInstance.response = responseHandler;
             if (!controllerInstance) {
                 responseHandler.end('text', '3:' + errMessage);
                 return ;

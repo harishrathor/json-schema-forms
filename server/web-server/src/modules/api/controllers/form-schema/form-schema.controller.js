@@ -17,9 +17,9 @@ export default class FormSchemaController extends AbstractController {
         userApiService.validateAPI(apiKey, eApiKey).then(isValid => {
             if (isValid) {
                 const jsonFilePath = path.join('forms_schema', `${formCode}.json`);
-                this.responseHandler.sendFile(jsonFilePath, true).end();
+                this.response.sendFile(jsonFilePath, true).end();
             } else {
-                this.responseHandler.status(401).end('Unauthorized request.');
+                this.response.status(401).end('Unauthorized request.');
             }
             
         });
