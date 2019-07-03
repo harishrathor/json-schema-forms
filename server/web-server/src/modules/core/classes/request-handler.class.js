@@ -7,6 +7,8 @@ import fs from 'fs';
 
 let _this;
 
+const validUnauthorizedAPIEndPointsArr = ['/api/user/auth/login', '/api/api/form-schema/get-config', '/api/api/form-schema/get-form-schema'];
+
 class RequestHandlerClass extends AbstractClass {
 
     initialize() {
@@ -109,6 +111,16 @@ class RequestHandlerClass extends AbstractClass {
         return (filePathParts[0] === 'assets' && this._isValidFileName(filePathParts[filePathParts.length - 1]));
     }
 
+    _isAccessibleUnauthorizedAPI(url) {
+        let valid = false;
+        validUnauthorizedAPIEndPointsArr.forEach(endPoint => {
+            if (url.indexOf(endPoint)) {
+                valid = true;
+            }
+        });
+        return valid;
+    }
+
     handle(req, res) {
         try {   
             const url = req.url;
@@ -128,7 +140,7 @@ class RequestHandlerClass extends AbstractClass {
                         responseHandler.status(401).end('Unauthorized file access.');
                     }
 
-                } else if (routeIdentifier === 'api' && url.length > 5 && (userAuthorized || (!userAuthorized && url.indexOf('/api/user/auth/login') === 0))){
+                } else if (routeIdentifier === 'api' && url.length > 5 && (userAuthorized || (!userAuthorized && _this._isAccessibleUnauthorizedAPI(url) ))){
 
                     var methodName = req.method;
                     var handlerMethod = `_${methodName}Handler`;

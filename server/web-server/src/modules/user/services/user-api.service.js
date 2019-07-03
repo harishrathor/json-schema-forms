@@ -55,7 +55,11 @@ class UserApiService extends AbstractService {
                 } else {
                     const { apiKey, secret} = apiData;
                     const decryptedText = cryptoService.decrypt(eApiKey, secret);
-                    resolve((apiKey === decryptedText))
+                    let data = null;
+                    if (apiKey === decryptedText) {
+                        data = secret;
+                    }
+                    resolve(data)
                 }
             }).catch(error => reject(error))
         });

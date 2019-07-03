@@ -22,7 +22,7 @@ export default class AuthController extends AbstractController {
             } else if (count > 1) {
                 this.response.end( 'More than one user exist.');
             } else {
-                this.response.end('User does exists.');
+                this.response.end('User does not exists.');
             }
         }) 
         .catch(error => {

@@ -1,8 +1,9 @@
 
 import AbstractController from '@coreModule/base/abstract.controller';
 import userApiService from '@userModule/services/user-api.service';
+import cryptoService from '@coreModule/services/crypto.service';
 import path from 'path';
-import * as fs from 'fs';
+import fs from 'fs';
 
 
 
@@ -13,11 +14,47 @@ export default class FormSchemaController extends AbstractController {
     }
 
     getFormSchemaAction() {
-        const { apiKey, eApiKey, formCode} = this.reqParams;
-        userApiService.validateAPI(apiKey, eApiKey).then(isValid => {
-            if (isValid) {
-                const jsonFilePath = path.join('forms_schema', `${formCode}.json`);
-                this.response.sendFile(jsonFilePath, true).end();
+        const { apiKey, ___jsf, formCode} = this.reqBody;
+        userApiService.validateAPI(apiKey, ___jsf).then(secretKey => {
+            if (secretKey) {
+                const jsonFilePath = path.join(SERVER.PATHS.STATIC_FILES, 'forms_schema', apiKey, `${formCode}.json`);
+                fs.readFile(jsonFilePath, 'utf8', (err, jsonStr) => {
+                    if (err) {
+                        if (err.code === 'ENOENT') {
+                            this.response.status(404).end();
+                        } else {
+                            this.response.status(500).end();
+                        }
+                    } else {
+                        this.response.json(JSON.parse(jsonStr)).end();
+                    }
+                });
+            } else {
+                this.response.status(401).end('Unauthorized request.');
+            }
+            
+        });
+    }
+
+    getConfigAction() {
+        const { apiKey, ___jsf} = this.reqBody;
+        userApiService.validateAPI(apiKey, ___jsf).then(secretKey => {
+            if (secretKey) {
+                const data = {
+                    config: {
+                        method: 'GET',
+                        protocol: '',
+                        domain: 'localhost',
+                        port: '8686',
+                        uri: '/api/form-schema/get-form-schema'
+                    },
+                    default: true
+                };
+                const dataStr = cryptoService.encrypt(JSON.stringify(data), secretKey);
+                const responseJson = {
+                    data: dataStr
+                };
+                this.response.json(responseJson);
             } else {
                 this.response.status(401).end('Unauthorized request.');
             }
