@@ -1,9 +1,4 @@
 import PATHS from "./paths";
-
-global.SERVER = {
-	PATHS
-};
-
 import express from "express";
 import session from 'express-session';
 import logger from 'morgan';
@@ -16,6 +11,10 @@ import helmet from 'helmet';
 
 const app = express();
 const Router = express.Router();
+
+global.SERVER = {
+	PATHS
+};
 
 import Handler from "@coreModule/classes/request-handler.class";
 import sessionConfig from '@configs/session.config';
@@ -34,7 +33,7 @@ const globalValues = {
 	isDev				: function() { return process.env.NODE_ENV === 'development'; },
 	isProd				: function() { return process.env.NODE_ENV === 'production'; },
 	isStaging			: function() { return process.env.NODE_ENV === 'staging'; },
-	LOGGER: 		new LoggerService()
+	LOGGER				: new LoggerService()
 };
 Object.assign(global.SERVER, globalValues);
 
@@ -79,7 +78,6 @@ db.default.then(() => {
 });
 
 let serverRunning = false;
-
 function startServer() {
 	if (!serverRunning) {
 		app.listen(PORT, err => {

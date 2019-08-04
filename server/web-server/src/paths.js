@@ -41,9 +41,9 @@ moduleAliase.addAliases({
     '@routes'         	: routes, 
     '@modules'			: modules,
     '@db'				: db,
-    '@apiModule'		  	: apiModule,
-    '@coreModule'		  	: coreModule,
-    '@userModule'		  	: userModule,
+    '@apiModule'		: apiModule,
+    '@coreModule'		: coreModule,
+    '@userModule'		: userModule,
     '@jsonSchemaFormsDB': jsonSchemaFormsDB,
     '@staticFiles'      : staticFiles
 });
