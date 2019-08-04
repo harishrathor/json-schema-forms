@@ -60,7 +60,6 @@ class RequestHandlerClass extends AbstractClass {
                 responseHandler.end('text', '3:' + errMessage);
                 return ;
             }
-            
             const actionMethodName = utils.toMethodName(action, '-') + 'Action';
             if (!controllerInstance[actionMethodName]) {
                 responseHandler.end('text', errMessage);
@@ -139,23 +138,16 @@ class RequestHandlerClass extends AbstractClass {
                     } else {
                         responseHandler.status(401).end('Unauthorized file access.');
                     }
-
                 } else if (routeIdentifier === 'api' && url.length > 5 && (userAuthorized || (!userAuthorized && _this._isAccessibleUnauthorizedAPI(url) ))){
-
-                    var methodName = req.method;
-                    var handlerMethod = `_${methodName}Handler`;
-
+                    const methodName = req.method;
+                    const handlerMethod = `_${methodName}Handler`;
                     if (!_this[handlerMethod]) {
                         responseHandler.end(`Currently ${methodName} request is not supported.`);
                     } else {
-                    
                         _this[handlerMethod](req, res, responseHandler);
-
                     }
-
                 } else if(routeIdentifier === 'api' || routeIdentifier === 'assets') {
                     responseHandler.status(401).end('Unauthorized request..');
-
                 } else {
                     let filePath = '/index.html';
                     if (_this._isValidFilePath(urlParts) || _this._isValidFileName(urlParts[urlParts.length - 1])) {

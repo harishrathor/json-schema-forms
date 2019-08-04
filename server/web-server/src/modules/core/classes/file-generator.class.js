@@ -282,7 +282,7 @@ import '@${moduleName}Module/${moduleName}.module.routing';`;
                 pathsVar += `
 const ${moduleName}Module = path.join(modulesDir, '${moduleName}');`;
                 alias += `
-    '@${moduleName}Module'		  	: ${moduleName}Module,`;
+    '@${moduleName}Module'		: ${moduleName}Module,`;
                 strPath += `
     '${moduleName.toUpperCase()}_MODULE'		  	: ${moduleName}Module,`;
             }
