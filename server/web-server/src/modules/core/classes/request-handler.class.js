@@ -7,7 +7,7 @@ import fs from 'fs';
 
 let _this;
 
-const validUnauthorizedAPIEndPointsArr = ['/api/user/auth/login', '/api/api/form-schema/get-config', '/api/api/form-schema/get-form-schema'];
+const validUnauthorizedAPIEndPointsArr = ['/api/user/auth/login', '/api/api/form-schema/get-config', '/api/api/form-schema/get-form-schema', '/api/user/auth/test'];
 
 class RequestHandlerClass extends AbstractClass {
 

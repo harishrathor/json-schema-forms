@@ -12,4 +12,5 @@ router.get(`${apiRoutePrefix}/user/auth/login/:username/:password`, requestHandl
 //router.get(`${apiRoutePrefix}/user/auth/login`, requestHandler);
 router.get(`${apiRoutePrefix}/user/auth/logout`, requestHandler);
 router.get(`${apiRoutePrefix}/user/auth/test`, requestHandler);
+router.get(`${apiRoutePrefix}/user/auth/context`, requestHandler);
         

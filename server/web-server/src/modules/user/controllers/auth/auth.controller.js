@@ -59,7 +59,99 @@ export default class AuthController extends AbstractController {
     }
 
     testAction() {
-        this.response.end( 'Test Action.');
+        //this.response.end( 'Test Action.');
+        const responseJson = {
+            "user": {
+                "ID": 2,
+                "username": "rj",
+                "email": "rj@naehas.com"
+            },
+            "smartTaskId": 1,
+            "proofHistoryId": 3193,
+            "proof": {
+                "ID": 3193,
+                "bucketName": "naehastest",
+                "copyFromStorageKey": "dashboard/smarttasks/task1/proofAttachments/TPS 1787 FINAL Email copy.pdf",
+                "version": "u5ES_9bdBhQf2PEtEu16sq4H4QOnkLq7",
+                "filename": "TPS 1787 FINAL Email copy.pdf",
+                "displayName": "TPS 1787 FINAL Email copy"
+            },
+            "assets": [
+                {
+                    "ID": 6518,
+                    "bucketName": "naehastest",
+                    "copyFromStorageKey": "dashboard/smarttasks/task1/proofAttachments/TPS 1787 FINAL Email copy.pdf",
+                    "version": "u5ES_9bdBhQf2PEtEu16sq4H4QOnkLq7",
+                    "filename": "TPS 1787 FINAL Email copy.pdf",
+                    "displayName": "TPS 1787 FINAL Email copy"
+                }
+            ],
+            "services": [
+                {
+                    "name": "dashboard",
+                    "baseURL": "http://localhost:8001/dashboard/naehas/rs",
+                    "fullURL": null
+                },
+                {
+                    "name": "rules",
+                    "baseURL": null,
+                    "fullURL": null
+                }
+            ]
+        };
+        this.response.json(responseJson).end();
+    }
+
+    contextAction() {
+        //this.response.end( 'Test Action.');
+        const responseJson = {
+            "user": {
+              "ID": 6,
+              "username": "kaushlendras",
+              "email": "kaushlendras@naehas.com"
+            },
+            "smartTaskId": 1,
+            "proofHistoryId": 11,
+            "proof": {
+              "ID": 11,
+              "bucketName": "naehasuat",
+              "copyFromStorageKey": "marketingcomplianceuat-dashboard/robertj@naehas.com-rjmarketingcompliance.naehaslp.com/rjmarketingcompliance-rjmc/proofs/TPS 1787 FINAL Email copy 2.html",
+              "version": "PHHamB1atwLGpuo7rhbB3P_Zc6tGaxfs",
+              "filename": "TPS 1787 FINAL Email copy 2.pdf",
+              "displayName": "TPS 1787 FINAL Email copy 2"
+            },
+            "assets": [
+              {
+                "ID": 17,
+                "bucketName": "naehasuat",
+                "copyFromStorageKey": "marketingcomplianceuat-dashboard/robertj@naehas.com-rjmarketingcompliance.naehaslp.com/rjmarketingcompliance-rjmc/proofs/TPS 1787 FINAL Email copy 2.pdf",
+                "version": "PHHamB1atwLGpuo7rhbB3P_Zc6tGaxfs",
+                "filename": "TPS 1787 FINAL Email copy 2.pdf",
+                "displayName": "TPS 1787 FINAL Email copy 2"
+              },
+              {
+                "ID": 17,
+                "bucketName": "naehasuat",
+                "copyFromStorageKey": "marketingcomplianceuat-dashboard/robertj@naehas.com-rjmarketingcompliance.naehaslp.com/rjmarketingcompliance-rjmc/proofs/TPS 1787 FINAL Email copy 2.pdf",
+                "version": "PHHamB1atwLGpuo7rhbB3P_Zc6tGaxfs",
+                "filename": "TPS 1787 FINAL Email copy 2.pdf",
+                "displayName": "TPS 1787 FINAL Email copy 2"
+              }
+            ],
+            "services": [
+              {
+                "name": "dashboard",
+                "baseURL": "https://uat.naehas.com/MarketingComplianceUATDashboard/naehas/rs",
+                "fullURL": null
+              },
+              {
+                "name": "rules",
+                "baseURL": null,
+                "fullURL": null
+              }
+            ]
+          };
+        this.response.json(responseJson).end();
     }
 
 }
