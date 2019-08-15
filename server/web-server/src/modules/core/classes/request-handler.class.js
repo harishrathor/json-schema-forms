@@ -132,7 +132,7 @@ class RequestHandlerClass extends AbstractClass {
             const responseHandler = new ResponseHandlerClass(req, res);
 
             if (url === '/') {
-                responseHandler.sendFile().end();
+                responseHandler.sendFile().end(); //Send index.html
             } else {
                 const userAuthorized = isAuthorizedUser(req, res);
                 if (_this._isValidAuthorizedFilePath(urlParts)) {
