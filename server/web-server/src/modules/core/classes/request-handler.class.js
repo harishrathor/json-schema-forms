@@ -7,7 +7,7 @@ import fs from 'fs';
 
 let _this;
 
-const validUnauthorizedAPIEndPointsArr = ['/api/user/auth/login', '/api/api/form-schema/get-config', '/api/api/form-schema/get-form-schema', '/api/user/auth/test'];
+const validUnauthorizedAPIEndPointsArr = ['/api/user/auth/login', '/api/api/form-schema/get-config', '/api/api/form-schema/get-form-schema', '/api/user/auth/test', '/api/user/auth/context'];
 
 class RequestHandlerClass extends AbstractClass {
 
@@ -29,11 +29,11 @@ class RequestHandlerClass extends AbstractClass {
 
     _callActionMethod(req, res, responseHandler, moduleName, controllerName, action) {
         let moduleInstance = null;
-        const errMessage = 'Request not supported.';
+        let errMessage = 'Request not supported.';
         if (!this._modules[moduleName]) {
             const modulePath = path.join(SERVER.PATHS.MODULES, moduleName, moduleName + '.module.js');
             if (!fs.existsSync(modulePath)) {
-                responseHandler.end('text', '1:' + errMessage);
+                responseHandler.end(errMessage);
                 return;
             }
             const fileModule = require(modulePath);
@@ -44,7 +44,8 @@ class RequestHandlerClass extends AbstractClass {
                 moduleInstance = new moduleClass;
                 this._modules[moduleName] = moduleInstance;
             } else {
-                responseHandler.end('text', '2:' + errMessage);
+                errMessage = 'Module does not exist.';
+                responseHandler.end(errMessage);
                 return;
             }
         } else {
@@ -57,17 +58,20 @@ class RequestHandlerClass extends AbstractClass {
             controllerInstance.res = res;
             controllerInstance.response = responseHandler;
             if (!controllerInstance) {
-                responseHandler.end('text', '3:' + errMessage);
+                errMessage = 'Controller could not be instantiated.';
+                responseHandler.end(errMessage);
                 return ;
             }
             const actionMethodName = utils.toMethodName(action, '-') + 'Action';
             if (!controllerInstance[actionMethodName]) {
-                responseHandler.end('text', errMessage);
+                errMessage = 'Request handler is not defined.';
+                responseHandler.end(errMessage);
                 return ;
             }
             controllerInstance[actionMethodName](req, res, responseHandler);
         } else {
-            responseHandler.end('text',   '4:' + errMessage);
+            errMessage = 'Module could not be intanstiated.';
+            responseHandler.end(errMessage);
             return;
         }
     }
@@ -113,7 +117,7 @@ class RequestHandlerClass extends AbstractClass {
     _isAccessibleUnauthorizedAPI(url) {
         let valid = false;
         validUnauthorizedAPIEndPointsArr.forEach(endPoint => {
-            if (url.indexOf(endPoint)) {
+            if (url.indexOf(endPoint) > -1) {
                 valid = true;
             }
         });
@@ -138,7 +142,7 @@ class RequestHandlerClass extends AbstractClass {
                     } else {
                         responseHandler.status(401).end('Unauthorized file access.');
                     }
-                } else if (routeIdentifier === 'api' && url.length > 5 && (userAuthorized || (!userAuthorized && _this._isAccessibleUnauthorizedAPI(url) ))){
+                } else if (routeIdentifier === 'api' && url.length > 5 && (userAuthorized || _this._isAccessibleUnauthorizedAPI(url) )) {
                     const methodName = req.method;
                     const handlerMethod = `_${methodName}Handler`;
                     if (!_this[handlerMethod]) {

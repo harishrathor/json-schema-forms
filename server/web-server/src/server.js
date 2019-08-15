@@ -21,8 +21,6 @@ import sessionConfig from '@configs/session.config';
 import LoggerService from '@coreModule/services/logger.service';
 const MongoStore = require('connect-mongo')(session);
 
-import cryptoService from '@coreModule/services/crypto.service';
-
 const globalValues = {
 	ENV 				: process.env.NODE_ENV,		
 	ROUTER          	: Router,
@@ -41,7 +39,7 @@ Object.assign(global.SERVER, globalValues);
 require("@routes"); 
 const db = require('@db');
 
-const PORT = process.env.port || 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -90,12 +88,11 @@ function startServer() {
 		});
 	}
 }
-
-console.log('Encrypted text:  ', cryptoService.encrypt('ssHw5oAJZSXaMVVnCM+DuQ==', 'VfYOR2/TCzUT9N4Mw7QoyA=='));
- /* setTimeout(function() {
+/* 
+ setTimeout(function() {
 	const fileGenerater = require('@coreModule/classes/file-generator.class');
 	const generater = new fileGenerater.FileGeneratorClass();
-	generater.generateService('user', 'user-api');
+	generater.generateController('core', 'user-navigation');
 }, 5000); */
 
 /* import crypto from '@coreModule/services/crypto.service';

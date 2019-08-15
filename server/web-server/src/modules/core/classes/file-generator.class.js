@@ -223,7 +223,7 @@ Note: Please do not edit it. This file is written by server.
                 
 import { ${controllerClassName} } from '@${moduleName}Module/controllers/${controllerName}/${controllerName}.controller';`;
             controllersClassValue += `
-        ${controllerName}:     ${controllerClassName},`;
+        '${controllerName}':     ${controllerClassName},`;
             }
         }
 
@@ -231,7 +231,7 @@ import { ${controllerClassName} } from '@${moduleName}Module/controllers/${contr
 ${controllersImports}
 
 export const controllers = {${controllersClassValue}
-}`;
+};`;
         return content;
         
     }
