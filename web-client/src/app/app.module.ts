@@ -8,6 +8,7 @@ import { LeftSidePanelComponent } from './components/left-side-panel/left-side-p
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContentComponent } from './components/content/content.component';
+import { NavLinkComponent } from './components/left-side-panel/components/nav-link/nav-link.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ContentComponent } from './components/content/content.component';
     LeftSidePanelComponent,
     HeaderComponent,
     FooterComponent,
-    ContentComponent
+    ContentComponent,
+    NavLinkComponent
   ],
   imports: [
     BrowserModule,

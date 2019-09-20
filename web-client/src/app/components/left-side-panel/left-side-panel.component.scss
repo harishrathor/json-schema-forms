@@ -14,6 +14,10 @@
       padding: 0;
       list-style: none; */
   }
+
+  .sidebar-navigation-links  {
+	  height: calc(100% - 70px);
+  }
   
   .sidebar-nav li {
       position: relative; 
@@ -40,19 +44,20 @@
   /* .sidebar-nav li:first-child a {
       color: #78ab98;
   } */
-  .sidebar-nav li:nth-child(5n+1):before {
+  
+  .sidebar-nav app-nav-link:nth-child(5n+1) li:before {
       background-color: #ec1b5a;   
   }
-  .sidebar-nav li:nth-child(5n+2):before {
+  .sidebar-nav app-nav-link:nth-child(5n+2) li:before {
       background-color: #79aefe;   
   }
-  .sidebar-nav li:nth-child(5n+3):before {
+  .sidebar-nav app-nav-link:nth-child(5n+3) li:before {
       background-color: #314190;   
   }
-  .sidebar-nav li:nth-child(5n+4):before {
+  .sidebar-nav app-nav-link:nth-child(5n+4) li:before {
       background-color: #279636;   
   }
-  .sidebar-nav li:nth-child(5n+5):before {
+  .sidebar-nav app-nav-link:nth-child(5n+5) li:before {
       background-color: #7d5d81;   
   }
   
@@ -156,53 +161,22 @@
   .dropdown-menu.show {
       top: 0;
   }
+
+  .navs-dropdown-toggle::after {
+	content:unset !important
+  }
+
+  .navs-dropdown-toggle {
+	  i {
+		  padding-left: 5px;
+	  }
+  }
   /*Fontawesome icons*/
-  .nav.sidebar-nav li a::before {
+  /* .nav.sidebar-nav li a::before {
       font-family: fontawesome;
       content: "\f12e";
       vertical-align: baseline;
       display: inline-block;
       padding-right: 5px;
-  }
-  a[href*="#home"]::before {
-    content: "\f015" !important;
-  }
-  a[href*="#about"]::before {
-    content: "\f129" !important;
-  }
-  a[href*="#events"]::before {
-    content: "\f073" !important;
-  }
-  a[href*="#events"]::before {
-    content: "\f073" !important;
-  }
-  a[href*="#team"]::before {
-    content: "\f0c0" !important;
-  }
-  a[href*="#works"]::before {
-    content: "\f0b1" !important;
-  } 
-  a[href*="#pictures"]::before {
-    content: "\f03e" !important;
-  }
-  a[href*="#videos"]::before {
-    content: "\f03d" !important;
-  }
-  a[href*="#books"]::before {
-    content: "\f02d" !important;
-  }
-  a[href*="#art"]::before {
-    content: "\f1fc" !important;
-  }
-  a[href*="#awards"]::before {
-    content: "\f02e" !important;
-  }
-  a[href*="#services"]::before {
-    content: "\f013" !important;
-  }
-  a[href*="#contact"]::before {
-    content: "\f086" !important;
-  }
-  a[href*="#followme"]::before {
-    content: "\f099" !important;
-  }
+  } */
+  

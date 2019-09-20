@@ -1,0 +1,28 @@
+<ng-container [ngSwitch]="navConfig.parent">
+  <li *ngSwitchCase="true" class="dropdown" >
+    <!--  <a href="#works" class="dropdown-toggle" (click)="workListClosed = !workListClosed"
+      [attr.aria-expanded]="!workListClosed" aria-controls="workList">Works <span class="caret"></span>
+    </a> -->
+    <a href="#" class="navs-dropdown-toggle dropdown-toggle" (click)="dropdownClosed = !dropdownClosed"
+      [attr.disabled]="navConfig.disabled" [target]="(navConfig.isExternalLink ? '__blank' : '')"
+      [attr.aria-expanded]="!dropdownClosed" [attr.aria-controls]="navConfig.name + '__child_list'">
+      <i [ngClass]="navConfig.icon" aria-hidden="true"></i>
+      <span class="nav-link-label">{{navConfig.label}}</span>
+      <i class="fa" [ngClass]="{'fa-caret-down': dropdownClosed, 'fa-caret-up': !dropdownClosed}">
+      </i>
+    </a>
+    <ul class="dropdown-menu animated fadeInLeft" role="menu" [attr.id]="navConfig.name + '__child_list'"
+      [collapse]="dropdownClosed">
+      <ng-container *ngFor="let childConfig of navConfig.children">
+        <app-nav-link [navConfig]="childConfig"></app-nav-link>
+      </ng-container>
+    </ul>
+  </li>
+  <li *ngSwitchCase="false">
+    <a [href]="navConfig.linkURL" [attr.disabled]="navConfig.disabled"
+      [target]="(navConfig.isExternalLink ? '__blank' : '')">
+      <i [ngClass]="navConfig.icon" aria-hidden="true"></i>
+      <span class="nav-link-label">{{navConfig.label}}</span>
+    </a>
+  </li>
+</ng-container>

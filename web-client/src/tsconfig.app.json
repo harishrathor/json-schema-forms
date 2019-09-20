@@ -4,7 +4,13 @@
     "outDir": "../out-tsc/app",
     "types": [],
     "paths": {
-      "@root/*": ["./"]
+      "@root/*": ["./"],
+      "@src/*": ["./src/*"],
+      "@assets/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@modules/*": ["./src/app/modules/*"],
+      "@interfaces/*": ["./src/app/interfaces/*"],
+      "@components/*": ["./src/app/components/*"]
     }
   },
   "exclude": [

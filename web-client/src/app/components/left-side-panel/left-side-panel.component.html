@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse fixed-top leftsid-navbar" id="sidebar-wrapper" role="navigation">
+<div class="navbar navbar-inverse fixed-top leftsid-navbar" id="sidebar-wrapper" role="navigation">
   <div class="sidebar-header">
     <div class="sidebar-brand">
       <a href="#">User Info</a>
@@ -6,27 +6,62 @@
   </div>
   <div class="sidebar-navigation-links">
     <ul class="nav sidebar-nav">
-
-      <li><a href="#home" >Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#events">Events</a></li>
-      <li><a href="#team">Team</a></li>
-      <li class="dropdown">
-        <a href="#works" class="dropdown-toggle" (click)="workListClosed = !workListClosed"
-          [attr.aria-expanded]="!workListClosed" aria-controls="workList">Works <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu animated fadeInLeft" role="menu" id="workList" [collapse]="workListClosed">
-          <div class="dropdown-header">Dropdown heading</div>
-          <li><a href="#pictures">Pictures</a></li>
-          <li><a href="#videos">Videeos</a></li>
-          <li><a href="#books">Books</a></li>
-          <li><a href="#art">Art</a></li>
-          <li><a href="#awards">Awards</a></li>
-        </ul>
-      </li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="#followme">Follow me</a></li>
+     <ng-container *ngFor="let nagLinkConfig of menuData.navigations">
+       <app-nav-link [navConfig]="nagLinkConfig"></app-nav-link>
+     </ng-container>
+   <!--   <li><a href="#home" >Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#team">Team</a></li>
+        <li class="dropdown">
+          <a href="#works" class="dropdown-toggle" (click)="workListClosed = !workListClosed"
+            [attr.aria-expanded]="!workListClosed" aria-controls="workList">Works <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu animated fadeInLeft" role="menu" id="workList" [collapse]="workListClosed">
+            <div class="dropdown-header">Dropdown heading</div>
+            <li><a href="#pictures">Pictures</a></li>
+            <li><a href="#videos">Videeos</a></li>
+            <li><a href="#books">Books</a></li>
+            <li><a href="#art">Art</a></li>
+            <li><a href="#awards">Awards</a></li>
+          </ul>
+        </li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#followme">Follow me</a></li> -->
     </ul>
   </div>
-</nav>
+</div>
+<!-- 
+<nav class="navbar navbar-inverse fixed-top leftsid-navbar" id="sidebar-wrapper" role="navigation">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <a href="#">User Info</a>
+      </div>
+    </div>
+    <div class="sidebar-navigation-links">
+      <ul class="nav sidebar-nav">
+  
+        <li><a href="#home" >Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#team">Team</a></li>
+        <li class="dropdown">
+          <a href="#works" class="dropdown-toggle" (click)="workListClosed = !workListClosed"
+            [attr.aria-expanded]="!workListClosed" aria-controls="workList">Works <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu animated fadeInLeft" role="menu" id="workList" [collapse]="workListClosed">
+            <div class="dropdown-header">Dropdown heading</div>
+            <li><a href="#pictures">Pictures</a></li>
+            <li><a href="#videos">Videeos</a></li>
+            <li><a href="#books">Books</a></li>
+            <li><a href="#art">Art</a></li>
+            <li><a href="#awards">Awards</a></li>
+          </ul>
+        </li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#followme">Follow me</a></li>
+      </ul>
+    </div>
+  </nav> -->

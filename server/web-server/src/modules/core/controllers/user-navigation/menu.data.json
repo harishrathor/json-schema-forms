@@ -1,0 +1,17 @@
+{
+    "navigations": [
+        {
+            "name": "home",
+            "label": "Home",
+            "icon": "",
+            "disabled": false,
+            "active": true,
+            "parent": false,
+            "root": true,
+            "description": "",
+            "linkURL": "",
+            "isExternalURL": false,
+            "children": []
+        }
+    ]
+}
