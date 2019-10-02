@@ -54,6 +54,7 @@
     "mongodb": "^3.2.5",
     "morgan": "^1.9.1",
     "nodemailer": "^6.3.0",
+    "vhost": "^3.0.2",
     "winston": "^3.2.1",
     "winston-transport": "^4.3.0"
   }

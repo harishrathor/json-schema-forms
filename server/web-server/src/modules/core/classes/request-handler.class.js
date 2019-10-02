@@ -4,6 +4,7 @@ import utils from '@shared/utils.class';
 import ResponseHandlerClass from '@coreModule/classes/response-handler.class';
 import isAuthorizedUser from '@userModule/functions/auth.function';
 import fs from 'fs';
+import { CLIENTS_INFO } from '@configs/clients.config';
 
 let _this;
 
@@ -130,6 +131,22 @@ class RequestHandlerClass extends AbstractClass {
             const urlParts = url.split('/').splice(1);
             const routeIdentifier = urlParts[0];
             const responseHandler = new ResponseHandlerClass(req, res);
+
+            let subdomainsArr = req.subdomains;
+            console.log('subdomainsArr', subdomainsArr);
+            let clientName = '';
+            if (subdomainsArr && subdomainsArr.length > 0) {
+                console.log('If');
+                clientName = subdomainsArr[0];
+            } else {
+                clientName = req.hostname.replace('\.com', '').replace('.localhost', '');
+            }
+            if (!(clientName in CLIENTS_INFO)) {
+                responseHandler.status(406).end();
+                return;
+            }
+            SERVER.APP.set('clientName', clientName);
+            console.log('clientName', clientName, SERVER.APP.set('clientName'));
 
             if (url === '/') {
                 responseHandler.sendFile().end(); //Send index.html

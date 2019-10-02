@@ -104,6 +104,7 @@ export default class AuthController extends AbstractController {
 
     contextAction() {
         //this.response.end( 'Test Action.');
+        console.log('Client Name', SERVER.APP.get('clientName'));
         const responseJson = {
             "user": {
               "ID": 6,

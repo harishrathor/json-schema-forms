@@ -8,6 +8,8 @@ import compress from 'compression';
 import methodOverride from 'method-override';
 import cors from 'cors';
 import helmet from 'helmet';
+import vhost from 'vhost';
+import { CLIENTS_URL_MAPPING } from '@configs/clients.config';
 
 const app = express();
 const Router = express.Router();
@@ -57,6 +59,8 @@ app.use(cors());
 app.use(express.static(SERVER.PATHS.CLIENT_ROOT));
 app.use(express.static(SERVER.PATHS.STATIC_FILES));
 
+//app.use(vhost(CLIENT_INFO.));
+
 if (SERVER.isDev()) {
 	app.use(logger('dev'));
 }
@@ -76,16 +80,30 @@ db.default.then(() => {
 });
 
 let serverRunning = false;
+let httpServer = null;
 function startServer() {
 	if (!serverRunning) {
-		app.listen(PORT, err => {
+		httpServer = app.listen(PORT, err => {
 			if (err) {
 				console.log("Error in running web server.", err);
 			} else {
 				console.log(`Web(${process.env.NODE_ENV}) Server running at port ${PORT}.`);
 				serverRunning = true;
+				registerClients();
 			}
 		});
+		//console.log('httpServerInstance', httpServerInstance);
+
+	}
+}
+
+function registerClients() {
+	for (let clientUrl in CLIENTS_URL_MAPPING) {
+		app.use(vhost(clientUrl, function (req, res) {
+			// handle req + res belonging to api.example.com
+			// pass the request to a standard Node.js HTTP server
+			httpServer.emit('request', req, res)
+		  }));
 	}
 }
 /* 
