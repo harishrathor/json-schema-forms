@@ -520,7 +520,7 @@ export { PATHS };
         const collectionFile = path.join(this.getDBModuleDir(moduleName), 'collections', `${collectionName}.collection.js`);
         const defaultContent = this._getCollectionFileDefaultContent(moduleName, collectionName);
         this.createAndWriteFile(collectionFile, 'F', defaultContent);
-        global.SERVER.DB.CONNECTION.createCollection(this.getDBActualCollectionName(moduleName, collectionName), (err) => {
+        global.SERVER.DB.getConnection().createCollection(this.getDBActualCollectionName(moduleName, collectionName), (err) => {
             if (err) {
                 console.log(err);
             } else {

@@ -15,8 +15,8 @@ const sessionConfig = {
 
 /* 
 
-if (global.SERVER.DB.CONNECTION) {
-    sessionConfig.store = new MongoStore({ db: global.SERVER.DB.CONNECTION });
+if (global.SERVER.DB.getConnection()) {
+    sessionConfig.store = new MongoStore({ db: global.SERVER.DB.getConnection() });
 }
  */
 export default sessionConfig;

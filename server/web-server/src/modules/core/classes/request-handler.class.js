@@ -4,7 +4,7 @@ import utils from '@shared/utils.class';
 import ResponseHandlerClass from '@coreModule/classes/response-handler.class';
 import isAuthorizedUser from '@userModule/functions/auth.function';
 import fs from 'fs';
-import { CLIENTS_INFO } from '@configs/clients.config';
+import { isActiveClient } from '@configs/clients.config';
 
 let _this;
 
@@ -141,11 +141,13 @@ class RequestHandlerClass extends AbstractClass {
             } else {
                 clientName = req.hostname.replace('\.com', '').replace('.localhost', '');
             }
-            if (!(clientName in CLIENTS_INFO)) {
+            console.log('clientName', clientName, isActiveClient(clientName));
+            if (!isActiveClient(clientName)) { //Client exist and active
                 responseHandler.status(406).end();
                 return;
             }
             SERVER.APP.set('clientName', clientName);
+            SERVER.GLOBAL_PROPS.CURRENT_CLIENT_NAME = clientName;
             console.log('clientName', clientName, SERVER.APP.set('clientName'));
 
             if (url === '/') {

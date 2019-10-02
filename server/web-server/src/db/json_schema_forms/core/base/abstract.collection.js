@@ -12,7 +12,7 @@ export default class AbstractCollection {
 
     postInit() {
 		if (this.collectionName) {
-			SERVER.DB.CONNECTION.collection(this.collectionName, (err, collection) => {
+			SERVER.DB.getConnection().collection(this.collectionName, (err, collection) => {
 				if (err) {
 					SERVER.LOGGER.logError(err);
 				} else {

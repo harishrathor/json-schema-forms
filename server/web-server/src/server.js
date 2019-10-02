@@ -21,6 +21,8 @@ global.SERVER = {
 import Handler from "@coreModule/classes/request-handler.class";
 import sessionConfig from '@configs/session.config';
 import LoggerService from '@coreModule/services/logger.service';
+import { MASTER_CLIENT_NAME } from '@configs/clients.config';
+
 const MongoStore = require('connect-mongo')(session);
 
 const globalValues = {
@@ -33,13 +35,15 @@ const globalValues = {
 	isDev				: function() { return process.env.NODE_ENV === 'development'; },
 	isProd				: function() { return process.env.NODE_ENV === 'production'; },
 	isStaging			: function() { return process.env.NODE_ENV === 'staging'; },
-	LOGGER				: new LoggerService()
+	LOGGER				: new LoggerService(),
+	DATA				: {},
+	GLOBAL_PROPS		: {} 		
 };
 Object.assign(global.SERVER, globalValues);
 
 //Using require because we need to load syncronously;
 require("@routes"); 
-const db = require('@db');
+require('@db');
 
 const PORT = process.env.PORT || 5000;
 
@@ -59,14 +63,16 @@ app.use(cors());
 app.use(express.static(SERVER.PATHS.CLIENT_ROOT));
 app.use(express.static(SERVER.PATHS.STATIC_FILES));
 
+app.set('masterClientName', MASTER_CLIENT_NAME);
+
 //app.use(vhost(CLIENT_INFO.));
 
 if (SERVER.isDev()) {
 	app.use(logger('dev'));
 }
 
-db.default.then(() => {
-	sessionConfig.store = new MongoStore({ db: global.SERVER.DB.CONNECTION });
+global.SERVER.DB.makeConnection().then(() => {
+	sessionConfig.store = new MongoStore({ db: global.SERVER.DB.getConnection(MASTER_CLIENT_NAME) });
 	app.use(
 		session(
 			sessionConfig
@@ -75,7 +81,7 @@ db.default.then(() => {
 	.use(Router);
 	startServer();
 }).catch(err => {
-	SERVER.LOGGER.logInfo('Error in DB connection.').logError(err);
+	SERVER.LOGGER.logInfo('Error in session configuration.').logError(err);
 	startServer();
 });
 

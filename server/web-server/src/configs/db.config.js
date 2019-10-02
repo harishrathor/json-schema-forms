@@ -6,7 +6,7 @@ if(SERVER.isDev()) {
         PORT: 27017,
         HOSTNAME: 'localhost',
         PROTOCOL: 'mongodb',
-        DB_NAME: 'json_schema_forms'
+        DB_NAME: 'utron'
     };
     dbConfig.URL = dbConfig.PROTOCOL + '://' + dbConfig.HOSTNAME + ':' + dbConfig.PORT;
 } else {
