@@ -1,23 +1,24 @@
 
 import AbstractController from '@coreModule/base/abstract.controller';
 import UserUsersCollection from '@jsonSchemaFormsDB/user/collections/users.collection';
-import userApiService from '@userModule/services/user-api.service';
+import { UserApiService } from '@userModule/services/user-api.service';
 
 // My user name : harish_6104, Password: harishrathor
 export default class AuthController extends AbstractController {
 
     initialize() {
         super.initialize();
+        this.userApiService = new UserApiService(this.CLIENT);
     }
 
     loginAction() {
-        const usersCollection = new UserUsersCollection();
+        const usersCollection = new UserUsersCollection(this.CLIENT);
         usersCollection
         .validateUsingUsernamePassword(this.reqParams.username, this.reqParams.password)
         .then(count => {
             if(count === 1) {
                 this.request.session.username = this.reqParams.username;
-             //   userApiService.createUserAPIData("5ce44ba5cea47279e855b255");//Copy from NoSQLBooster for MongoDB free edition. This message does not appear if you are using a registered version.
+             //   this.userApiService.createUserAPIData("5ce44ba5cea47279e855b255");//Copy from NoSQLBooster for MongoDB free edition. This message does not appear if you are using a registered version.
                 this.response.end('Logged In successfully.');
             } else if (count > 1) {
                 this.response.end( 'More than one user exist.');
@@ -103,8 +104,7 @@ export default class AuthController extends AbstractController {
     }
 
     contextAction() {
-        //this.response.end( 'Test Action.');
-        console.log('Client Name', SERVER.APP.get('clientName'));
+        const clientName = this.CLIENT.name;
         const responseJson = {
             "user": {
               "ID": 6,
@@ -152,7 +152,15 @@ export default class AuthController extends AbstractController {
               }
             ]
           };
-        this.response.json(responseJson).end();
+        var promise = new Promise((resolve, reject) => {
+            setTimeout(function() {
+                resolve();
+            }, 2000);
+        });
+        promise.then(() => {
+            console.log(`DB: ${SERVER.DB.getConnection(clientName).s.databaseName} : ${clientName} : ${this.CLIENT.name}.` );
+            this.response.json(responseJson).end();
+        });
     }
 
 }

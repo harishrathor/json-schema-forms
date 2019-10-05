@@ -2,7 +2,8 @@
 
 export default class AbstractCollection {
 
-    constructor() {
+    constructor(client) {
+		this.CLIENT = client; //Client config from clients.config.js, set at run for the current client.
         this.initialize();
     }
 
@@ -11,8 +12,8 @@ export default class AbstractCollection {
     }
 
     postInit() {
-		if (this.collectionName) {
-			SERVER.DB.getConnection().collection(this.collectionName, (err, collection) => {
+		if (this.collectionName && this.CLIENT) {
+			SERVER.DB.getConnection(this.CLIENT.name).collection(this.collectionName, (err, collection) => {
 				if (err) {
 					SERVER.LOGGER.logError(err);
 				} else {

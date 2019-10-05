@@ -5,6 +5,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 export const CLIENTS_CONFIG = {
     [domain]: {
+        id          : 1,
         master      : true,
         active      : true,
         name        : 'utron',
@@ -30,8 +31,9 @@ export const CLIENTS_CONFIG = {
         }
     },
     forms: {
+        id          : 2,
         active      : true,
-        name    : 'json-schema-forms',
+        name    : 'forms',
         url     : `forms.${hostname}`,
         config      : {
             development: {
@@ -54,6 +56,7 @@ export const CLIENTS_CONFIG = {
         }
     },
     mailer: {
+        id          : 3,
         active      : true,
         name    : 'mailer',
         url     : `mailer.${hostname}`,

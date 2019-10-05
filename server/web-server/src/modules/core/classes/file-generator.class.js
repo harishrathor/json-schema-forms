@@ -71,7 +71,7 @@ export {
         const content = `
 import AbstractService from '@coreModule/base/abstract.service';
 
-class ${controllerClassName} extends AbstractService {
+export class ${controllerClassName} extends AbstractService {
 
     initialize() {
         super.initialize();

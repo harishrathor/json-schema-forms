@@ -1,6 +1,6 @@
 
 
-class UtilsClass {
+export class UtilsClass {
     
     randomString(length) {
         var text = "";

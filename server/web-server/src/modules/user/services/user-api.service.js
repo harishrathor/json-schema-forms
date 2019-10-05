@@ -6,16 +6,16 @@ import cryptoService from '@coreModule/services/crypto.service';
 import utils from '@shared/utils.class';
 import { ObjectId } from 'mongodb';
 
-const userApiCollection = new UserApiCollection();
-class UserApiService extends AbstractService {
+export class UserApiService extends AbstractService {
 
     initialize() {
         super.initialize();
+        this.userApiCollection = new UserApiCollection(this.CLIENT);
     }
 
     createUserAPIData(userId) {
         return new Promise((resolve, reject) => {
-            const userCollection = new UserUsersCollection();
+            const userCollection = new UserUsersCollection(this.CLIENT);
             const userObjectId = ObjectId(userId);
             userCollection.findOne({
                 _id: userObjectId
@@ -33,7 +33,7 @@ class UserApiService extends AbstractService {
                     apiKeyString,
                     secretString
                 };
-                userApiCollection.insertOne(userApiData).then(data => {
+                this.userApiCollection.insertOne(userApiData).then(data => {
                     SERVER.LOGGER.logInfo('Created User API Data.');
                     resolve(data);
                 },
@@ -49,7 +49,7 @@ class UserApiService extends AbstractService {
 
     validateAPI(clientApiKey, eApiKey) {
         return new Promise((resolve, reject) => {
-            userApiCollection.findOne({apiKey: clientApiKey}).then(apiData => {
+            this.userApiCollection.findOne({apiKey: clientApiKey}).then(apiData => {
                 if (apiData === null) {
                     resolve(false);
                 } else {
@@ -61,15 +61,11 @@ class UserApiService extends AbstractService {
                     }
                     resolve(data)
                 }
-            }).catch(error => reject(error))
+            }).catch(error => reject(error));
         });
     }
 
 }
-
-export {
-    UserApiService
-};
 
 export default new UserApiService();
         

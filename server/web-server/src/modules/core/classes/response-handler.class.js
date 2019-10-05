@@ -5,10 +5,10 @@ import utils from '@shared/utils.class';
 
 export default class ResponseHandlerClass extends AbstractClass {
 
-    constructor(req, res) {
-        super();
+    constructor(client, req, res) {
+        super(client);
         this.request = req;
-        this.res = res;
+		this.res = res;
     }
 
     initialize() {

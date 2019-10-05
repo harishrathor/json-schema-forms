@@ -2,9 +2,6 @@ import { MongoClient } from 'mongodb';
 import { CLIENTS_CONFIG, ACTIVE_CLIENTS_NAMES_ARR } from '@configs/clients.config';
 
 function getConnection(clientName) {
-    if (!clientName) {
-        clientName = SERVER.GLOBAL_PROPS.CURRENT_CLIENT_NAME;
-    }
     if (clientName && global.SERVER.DB.CLIENTS_DB_CONNECTIONS[clientName]) {
         return global.SERVER.DB.CLIENTS_DB_CONNECTIONS[clientName].CONNECTION;
     }
@@ -12,9 +9,6 @@ function getConnection(clientName) {
 }
 
 function getClient(clientName) {
-    if (!clientName) {
-        clientName = SERVER.GLOBAL_PROPS.CURRENT_CLIENT_NAME;
-    }
     if (clientName && global.SERVER.DB.CLIENTS_DB_CONNECTIONS[clientName]) {
         return global.SERVER.DB.CLIENTS_DB_CONNECTIONS[clientName].DB_CLIENT;
     }

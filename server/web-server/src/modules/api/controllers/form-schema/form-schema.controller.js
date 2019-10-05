@@ -1,6 +1,6 @@
 
 import AbstractController from '@coreModule/base/abstract.controller';
-import userApiService from '@userModule/services/user-api.service';
+import { UserApiService } from '@userModule/services/user-api.service';
 import cryptoService from '@coreModule/services/crypto.service';
 import path from 'path';
 import fs from 'fs';
@@ -11,11 +11,13 @@ export default class FormSchemaController extends AbstractController {
 
     initialize() {
         super.initialize();
+        console.log('FormSchemaController', this.CLIENT);
+        this.userApiService = new UserApiService(this.CLIENT);
     }
 
     getFormSchemaAction() {
         const { apiKey, ___jsf, formCode} = this.reqBody;
-        userApiService.validateAPI(apiKey, ___jsf).then(secretKey => {
+        this.userApiService.validateAPI(apiKey, ___jsf).then(secretKey => {
             if (secretKey) {
                 const jsonFilePath = path.join(SERVER.PATHS.STATIC_FILES, 'forms_schema', apiKey, `${formCode}.json`);
                 fs.readFile(jsonFilePath, 'utf8', (err, jsonStr) => {
@@ -38,7 +40,7 @@ export default class FormSchemaController extends AbstractController {
 
     getConfigAction() {
         const { apiKey, ___jsf} = this.reqBody;
-        userApiService.validateAPI(apiKey, ___jsf).then(secretKey => {
+        this.userApiService.validateAPI(apiKey, ___jsf).then(secretKey => {
             if (secretKey) {
                 const data = {
                     config: {

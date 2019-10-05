@@ -21,7 +21,10 @@
   "scripts": {
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "benchmark": "loadtest -c 1000 http://localhost:5000/file/assets/public/FRM0000000001.json",
+    "testload-mailer": "loadtest -c 1000 http://mailer.localhost:8686/api/user/auth/context",
+    "testload-forms": "loadtest -c 1000 http://forms.localhost:8686/api/user/auth/context",
+    "testload": "loadtest -c 1000 http://utron.localhost:8686/api/user/auth/context",
+    "run-loadtest": "npm run testload && npm run testload-forms && npm run testload-mailer",
     "start-dev-server": "npm-watch build-run-dev",
     "build-run-dev": "babel --presets es2015 src -d dist && env-cmd -e development node dist/server.js",
     "start-prod-server": "babel --presets es2015 src -d dist && env-cmd -e production node dist/server.js",
@@ -32,7 +35,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
-    "loadtest": "^3.0.7",
+    "loadtest": "^3.0.8",
     "npm-watch": "^0.6.0"
   },
   "dependencies": {

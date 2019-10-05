@@ -45,8 +45,6 @@ Object.assign(global.SERVER, globalValues);
 require("@routes"); 
 require('@db');
 
-const PORT = process.env.PORT || 5000;
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -89,6 +87,7 @@ let serverRunning = false;
 let httpServer = null;
 function startServer() {
 	if (!serverRunning) {
+		const PORT = process.env.PORT || 5000;		
 		httpServer = app.listen(PORT, err => {
 			if (err) {
 				console.log("Error in running web server.", err);
@@ -108,8 +107,8 @@ function registerClients() {
 		app.use(vhost(clientUrl, function (req, res) {
 			// handle req + res belonging to api.example.com
 			// pass the request to a standard Node.js HTTP server
-			httpServer.emit('request', req, res)
-		  }));
+			httpServer.emit('request', req, res);
+		}));
 	}
 }
 /* 

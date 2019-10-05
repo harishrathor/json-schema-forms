@@ -1,13 +1,13 @@
 
 export default class AbstractModule {
 
-    constructor() {
-        this.config = {};
+    constructor(client) {
+        this.CLIENT = client;
         this.initialize();
     }
-
+    
     initialize() {
-        
+        this.config = {};
     }
 
     getControllerClass(controllerName) {
@@ -19,7 +19,7 @@ export default class AbstractModule {
         if (!controllerClass) {
             return null;
         }
-        return new controllerClass;
+        return new controllerClass(this.CLIENT);
     }
 
     get controllers() {

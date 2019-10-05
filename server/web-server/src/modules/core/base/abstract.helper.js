@@ -1,11 +1,11 @@
 export default class AbstractHelper {
     
-    constructor() {
+    constructor(client) {
+        this.CLIENT = client;
         this.initialize();
     }
-
+    
     initialize() {
-        
     }
 
 }

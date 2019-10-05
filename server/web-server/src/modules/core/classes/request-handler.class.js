@@ -4,7 +4,7 @@ import utils from '@shared/utils.class';
 import ResponseHandlerClass from '@coreModule/classes/response-handler.class';
 import isAuthorizedUser from '@userModule/functions/auth.function';
 import fs from 'fs';
-import { isActiveClient } from '@configs/clients.config';
+import { isActiveClient, CLIENTS_CONFIG } from '@configs/clients.config';
 
 let _this;
 
@@ -16,6 +16,7 @@ class RequestHandlerClass extends AbstractClass {
         super.initialize();
         _this = this;
         this._modules = {};
+        this.CLIENT = null; //Client config from clients.config.js, set at run for the current client.
     }
 
     _getHandlerInfo(req) {
@@ -42,7 +43,7 @@ class RequestHandlerClass extends AbstractClass {
 
             let moduleClass = fileModule[moduleClassName];
             if (moduleClass) {
-                moduleInstance = new moduleClass;
+                moduleInstance = new moduleClass(this.CLIENT);
                 this._modules[moduleName] = moduleInstance;
             } else {
                 errMessage = 'Module does not exist.';
@@ -52,17 +53,18 @@ class RequestHandlerClass extends AbstractClass {
         } else {
             moduleInstance = this._modules[moduleName];
         }
-
+        moduleInstance.CLIENT = this.CLIENT;
         if (moduleInstance) {
             const controllerInstance = moduleInstance.getControllerInstance(controllerName);
-            controllerInstance.request = req;
-            controllerInstance.res = res;
-            controllerInstance.response = responseHandler;
             if (!controllerInstance) {
                 errMessage = 'Controller could not be instantiated.';
                 responseHandler.end(errMessage);
                 return ;
             }
+            controllerInstance.request = req;
+            controllerInstance.res = res;
+            controllerInstance.response = responseHandler;
+            controllerInstance.CLIENT = this.CLIENT;
             const actionMethodName = utils.toMethodName(action, '-') + 'Action';
             if (!controllerInstance[actionMethodName]) {
                 errMessage = 'Request handler is not defined.';
@@ -130,10 +132,9 @@ class RequestHandlerClass extends AbstractClass {
             const url = req.url;
             const urlParts = url.split('/').splice(1);
             const routeIdentifier = urlParts[0];
-            const responseHandler = new ResponseHandlerClass(req, res);
+            const responseHandler = new ResponseHandlerClass(null, req, res);
 
             let subdomainsArr = req.subdomains;
-            console.log('subdomainsArr', subdomainsArr);
             let clientName = '';
             if (subdomainsArr && subdomainsArr.length > 0) {
                 console.log('If');
@@ -141,14 +142,12 @@ class RequestHandlerClass extends AbstractClass {
             } else {
                 clientName = req.hostname.replace('\.com', '').replace('.localhost', '');
             }
-            console.log('clientName', clientName, isActiveClient(clientName));
             if (!isActiveClient(clientName)) { //Client exist and active
                 responseHandler.status(406).end();
                 return;
             }
-            SERVER.APP.set('clientName', clientName);
-            SERVER.GLOBAL_PROPS.CURRENT_CLIENT_NAME = clientName;
-            console.log('clientName', clientName, SERVER.APP.set('clientName'));
+            _this.CLIENT = CLIENTS_CONFIG[clientName];
+            console.log('Info: Client Name - ', clientName, '.');
 
             if (url === '/') {
                 responseHandler.sendFile().end(); //Send index.html
