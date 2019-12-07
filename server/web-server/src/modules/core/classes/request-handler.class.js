@@ -33,7 +33,7 @@ class RequestHandlerClass extends AbstractClass {
         let moduleInstance = null;
         let errMessage = 'Request not supported.';
         if (!this._modules[moduleName]) {
-            const modulePath = path.join(SERVER.PATHS.MODULES, moduleName, moduleName + '.module.js');
+            const modulePath = path.join(SERVER.paths.MODULES, moduleName, moduleName + '.module.js');
             if (!fs.existsSync(modulePath)) {
                 responseHandler.end(errMessage);
                 return;

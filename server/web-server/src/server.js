@@ -1,4 +1,31 @@
-import PATHS from "./paths";
+
+import { PATHS } from './paths';
+import RootServer from '@srcRoot/root.server';
+
+import LoggerService from '@coreModule/services/logger.service';
+import sessionConfig from '@configs/session.config';
+import Handler from "@coreModule/classes/request-handler.class";
+import clientsConfig from '@configs/clients.config';
+import { DB } from '@db';
+
+export class MainServer extends RootServer {
+
+	initialize() {
+		this.logger = new LoggerService();
+		this.requestHanlder = Handler.handle;
+		this.sessionConfig = sessionConfig;
+        this.paths = PATHS;
+		this.clientsConfig = clientsConfig;
+		this.db = DB;
+	}
+}
+global.SERVER  = MainServer.getServerObject(Handler.handle); 
+//MainServer.createServer(global.SERVER);
+Object.assign(global.SERVER, new MainServer());
+
+//console.log(global.SERVER);
+
+/* import PATHS from "./paths";
 import express from "express";
 import session from 'express-session';
 import logger from 'morgan';
@@ -98,7 +125,6 @@ function startServer() {
 			}
 		});
 		//console.log('httpServerInstance', httpServerInstance);
-
 	}
 }
 
@@ -110,7 +136,7 @@ function registerClients() {
 			httpServer.emit('request', req, res);
 		}));
 	}
-}
+} */
 /* 
  setTimeout(function() {
 	const fileGenerater = require('@coreModule/classes/file-generator.class');
@@ -123,4 +149,3 @@ function registerClients() {
 crypto.plainText = 'Harish';
 crypto.secretKey = 'Rathor';
 console.log(crypto.encrypt(), crypto.decrypt()); */
-

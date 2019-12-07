@@ -108,3 +108,13 @@ export const ACTIVE_CLIENTS_NAMES_ARR = activeClientsNameArr;
 export const CLIENTS_URL_MAPPED_CONFIG = mapping;
 
 export const MASTER_CLIENT_NAME = domain;
+
+export default {
+    CLIENTS_CONFIG,
+    CLIENTS_NAME_ARR,
+    clientExists,
+    isActiveClient,
+    ACTIVE_CLIENTS_NAMES_ARR,
+    CLIENTS_URL_MAPPED_CONFIG,
+    MASTER_CLIENT_NAME
+};

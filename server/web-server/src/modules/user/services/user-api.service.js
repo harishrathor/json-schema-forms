@@ -34,7 +34,7 @@ export class UserApiService extends AbstractService {
                     secretString
                 };
                 this.userApiCollection.insertOne(userApiData).then(data => {
-                    SERVER.LOGGER.logInfo('Created User API Data.');
+                    SERVER.logger.logInfo('Created User API Data.');
                     resolve(data);
                 },
                 error => {

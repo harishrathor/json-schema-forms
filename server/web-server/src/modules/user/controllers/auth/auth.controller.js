@@ -27,7 +27,7 @@ export default class AuthController extends AbstractController {
             }
         }) 
         .catch(error => {
-            SERVER.LOGGER.logError(error);
+            SERVER.logger.logError(error);
             this.response.end( 'Error in validating user.');
         }) 
         ;
@@ -43,13 +43,13 @@ export default class AuthController extends AbstractController {
         }).then((user) => {
             usersCollection.find().count().then((count) => {
                 this.response.end( 'Logged In successfully. Total insertion count: ' + count);
-                SERVER.LOGGER.logInfo('User count:', count);
+                SERVER.logger.logInfo('User count:', count);
             }).catch((err) => {
-                SERVER.LOGGER.logInfo('Error in fetching count').logError(err);
+                SERVER.logger.logInfo('Error in fetching count').logError(err);
                 this.response.end( 'Error in counting user.');
             });
         }).catch((err) => {
-            SERVER.LOGGER.logError(err);
+            SERVER.logger.logError(err);
             this.response.end( 'Error in creating user.');
         }); */
     }

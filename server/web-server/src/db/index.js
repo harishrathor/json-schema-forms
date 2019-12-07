@@ -74,5 +74,3 @@ const db = {
 };
 
 export const DB = db;
-global.SERVER.DB = db; 
- 

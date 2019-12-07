@@ -8,8 +8,8 @@ export default class LoggerService extends AbstractService {
 
     initialize() {
         super.initialize();
-      /*  const loggerFilePath = path.join(SERVER.PATHS.ROOT, 'loggs', `combined.log`);
-        const exceptionFilePath = path.join(SERVER.PATHS.ROOT, 'loggs', `exceptions.log`);
+      /*  const loggerFilePath = path.join(SERVER.paths.ROOT, 'loggs', `combined.log`);
+        const exceptionFilePath = path.join(SERVER.paths.ROOT, 'loggs', `exceptions.log`);
          this.logger = winston.createLogger({
             levels: winston.config.syslog.levels,
             transports: [

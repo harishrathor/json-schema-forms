@@ -15,7 +15,7 @@ export default class AbstractCollection {
 		if (this.collectionName && this.CLIENT) {
 			SERVER.DB.getConnection(this.CLIENT.name).collection(this.collectionName, (err, collection) => {
 				if (err) {
-					SERVER.LOGGER.logError(err);
+					SERVER.logger.logError(err);
 				} else {
 					this.collection = collection;
 				}
@@ -27,7 +27,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.aggregate.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -37,7 +37,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.bulkWrite.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -47,7 +47,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.count.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -57,7 +57,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.countDocuments.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -67,7 +67,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.createIndex.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -77,7 +77,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.createIndexes.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -87,7 +87,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.deleteMany.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -97,7 +97,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.deleteOne.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -107,7 +107,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.distinct.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -117,7 +117,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.drop.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -127,7 +127,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.dropAllIndexes.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -137,7 +137,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.dropIndex.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -147,7 +147,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.dropIndexes.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -157,7 +157,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.ensureIndex.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -167,7 +167,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.estimatedDocumentCount.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -177,7 +177,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.find.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -187,7 +187,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.findAndModify.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -197,7 +197,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.findAndRemove.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -207,7 +207,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.findOne.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -217,7 +217,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.findOneAndDelete.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -227,7 +227,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.findOneAndReplace.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -237,7 +237,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.findOneAndUpdate.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -247,7 +247,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.geoHaystackSearch.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -257,7 +257,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.group.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -267,7 +267,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.indexes.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -277,7 +277,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.indexExists.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -287,7 +287,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.indexInformation.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -297,7 +297,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.initializeOrderedBulkOp.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -307,7 +307,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.initializeUnorderedBulkOp.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -317,7 +317,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.insert.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -327,7 +327,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.insertMany.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -337,7 +337,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.insertOne.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -347,7 +347,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.isCapped.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -357,7 +357,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.listIndexes.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -367,7 +367,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.mapReduce.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -377,7 +377,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.options.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -387,7 +387,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.parallelCollectionScan.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -397,7 +397,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.reIndex.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -407,7 +407,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.remove.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -417,7 +417,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.rename.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -427,7 +427,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.replaceOne.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -437,7 +437,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.save.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -447,7 +447,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.stats.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -457,7 +457,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.update.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -467,7 +467,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.updateMany.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -477,7 +477,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.updateOne.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		
@@ -487,7 +487,7 @@ export default class AbstractCollection {
 		try {
 			return this.collection.watch.apply(this.collection, arguments);
 		} catch(error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return null;
 		}
 		

@@ -53,7 +53,7 @@ export default class ResponseHandlerClass extends AbstractClass {
         } else if(!filePath) {
             filePath = url;
         } 
-        const fullFilePath = SERVER.PATHS.CLIENT_ROOT + filePath;
+        const fullFilePath = SERVER.paths.CLIENT_ROOT + filePath;
         this.res.sendFile(fullFilePath);
     }
 
@@ -163,9 +163,9 @@ export default class ResponseHandlerClass extends AbstractClass {
 		let fullFilePath = filePath;
 		if (!isAbsolutePath) {
 			if (isServerStaticFile) {
-				fullFilePath = path.join(SERVER.PATHS.STATIC_FILES, filePath);
+				fullFilePath = path.join(SERVER.paths.STATIC_FILES, filePath);
 			} else {
-				fullFilePath = SERVER.PATHS.CLIENT_ROOT + filePath;
+				fullFilePath = SERVER.paths.CLIENT_ROOT + filePath;
 			} 
 		}
 		return this._callResponseMethod.apply(this, ['sendFile', fullFilePath, ...restParams]);
@@ -200,7 +200,7 @@ export default class ResponseHandlerClass extends AbstractClass {
 			this.afterResponseSuccess = this.afterSendResponse.apply(this, [resMethodName, responseReturn, ...argsArr]);
 			return this;
 		} catch (error) {
-			SERVER.LOGGER.logError(error);
+			SERVER.logger.logError(error);
 			return this;
 		}
 	}

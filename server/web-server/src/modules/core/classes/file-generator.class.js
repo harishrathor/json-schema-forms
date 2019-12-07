@@ -8,7 +8,7 @@ export default class FileGeneratorClass extends AbstractClass {
 
     initialize() {
         super.initialize();
-        this.rootDir = SERVER.PATHS.ROOT; //path.join(global.SERVER.PATHS.ROOT, '..', 'src');
+        this.rootDir = SERVER.paths.ROOT; //path.join(global.SERVER.paths.ROOT, '..', 'src');
         this.srcRootDir = path.join(this.rootDir, 'src');
         this.dbName = 'json_schema_forms';
     }

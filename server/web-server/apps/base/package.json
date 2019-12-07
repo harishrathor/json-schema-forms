@@ -1,0 +1,64 @@
+{
+  "name": "json-form-generator-server-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "watch": {
+    "build-run-dev": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js",
+      "quiet": true,
+      "legacyWatch": true,
+      "delay": 2500,
+      "runOnChangeOnly": false
+    }
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "testload-mailer": "loadtest -c 1000 http://mailer.localhost:8686/api/user/auth/context",
+    "testload-forms": "loadtest -c 1000 http://forms.localhost:8686/api/user/auth/context",
+    "testload": "loadtest -c 1000 http://utron.localhost:8686/api/user/auth/context",
+    "run-loadtest": "npm run testload && npm run testload-forms && npm run testload-mailer",
+    "start-dev-server": "npm-watch build-run-dev",
+    "build-run-dev": "babel --presets es2015 src -d dist && env-cmd -e development node dist/server.js",
+    "start-prod-server": "babel --presets es2015 src -d dist && env-cmd -e production node dist/server.js",
+    "start-staging-server": "babel --presets es2015 src -d dist && env-cmd -e staging node dist/server.js"
+  },
+  "author": "harishrathor",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "loadtest": "^3.0.8",
+    "npm-watch": "^0.6.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "connect-mongo": "^2.0.3",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "crypto-js": "^3.1.9-1",
+    "debug": "^4.1.1",
+    "env-cmd": "^9.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.16.1",
+    "helmet": "^3.18.0",
+    "http-errors": "^1.7.2",
+    "jsonschema": "^1.2.4",
+    "method-override": "^3.0.0",
+    "module-alias": "^2.2.0",
+    "mongodb": "^3.2.5",
+    "morgan": "^1.9.1",
+    "nodemailer": "^6.3.0",
+    "vhost": "^3.0.2",
+    "winston": "^3.2.1",
+    "winston-transport": "^4.3.0"
+  }
+}

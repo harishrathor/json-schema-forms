@@ -19,7 +19,7 @@ export default class FormSchemaController extends AbstractController {
         const { apiKey, ___jsf, formCode} = this.reqBody;
         this.userApiService.validateAPI(apiKey, ___jsf).then(secretKey => {
             if (secretKey) {
-                const jsonFilePath = path.join(SERVER.PATHS.STATIC_FILES, 'forms_schema', apiKey, `${formCode}.json`);
+                const jsonFilePath = path.join(SERVER.paths.STATIC_FILES, 'forms_schema', apiKey, `${formCode}.json`);
                 fs.readFile(jsonFilePath, 'utf8', (err, jsonStr) => {
                     if (err) {
                         if (err.code === 'ENOENT') {
