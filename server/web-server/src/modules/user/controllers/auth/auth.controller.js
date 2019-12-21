@@ -8,11 +8,11 @@ export default class AuthController extends AbstractController {
 
     initialize() {
         super.initialize();
-        this.userApiService = new UserApiService(this.CLIENT);
+        this.userApiService = new UserApiService();
     }
 
     loginAction() {
-        const usersCollection = new UserUsersCollection(this.CLIENT);
+        const usersCollection = new UserUsersCollection();
         usersCollection
         .validateUsingUsernamePassword(this.reqParams.username, this.reqParams.password)
         .then(count => {
@@ -104,7 +104,6 @@ export default class AuthController extends AbstractController {
     }
 
     contextAction() {
-        const clientName = this.CLIENT.name;
         const responseJson = {
             "user": {
               "ID": 6,
@@ -158,7 +157,6 @@ export default class AuthController extends AbstractController {
             }, 2000);
         });
         promise.then(() => {
-            console.log(`DB: ${SERVER.DB.getConnection(clientName).s.databaseName} : ${clientName} : ${this.CLIENT.name}.` );
             this.response.json(responseJson).end();
         });
     }

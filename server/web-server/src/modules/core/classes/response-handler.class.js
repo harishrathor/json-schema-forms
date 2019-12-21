@@ -5,15 +5,19 @@ import utils from '@shared/utils.class';
 
 export default class ResponseHandlerClass extends AbstractClass {
 
-    constructor(client, req, res) {
-        super(client);
+    constructor(req, res) {
+        super();
         this.request = req;
 		this.res = res;
     }
 
     initialize() {
         super.initialize();
-    }
+	}
+	
+	sendDefaultResponse() {
+		this._sendText('Server is alive.', true, 404);
+	}
 
     _write(content, endFlag, statusCode, contentType, endCoding) {
         if (!endCoding) {
@@ -27,29 +31,29 @@ export default class ResponseHandlerClass extends AbstractClass {
         }
         this.res.writeHead(statusCode, contentType);
         if (endFlag) {
-            this.res.end(content, endCoding);
+            this.end(content, endCoding);
         } else {
-            this.res.write(content, endCoding);
+            this.write(content, endCoding);
         }
     }
 
     _sendText(text, endFlag, statusCode) {
       //  this._write(text, endFlag, statusCode, { 'Content-Type': 'text/html' });
-        this.res.status(statusCode);
-        this.res.send(text);
+        this.status(statusCode);
+        this.send(text);
     }
 
     _sendJson(json, endFlag, statusCode) {
       //  this._write(json, endFlag, statusCode, { 'Content-Type': 'application/json' });
-      this.res.status(statusCode);
-      this.res.json(json);
+      this.status(statusCode);
+      this.json(json);
     }
 
     _sendFile(filePath) {
         const request = this.request;
         const url = request.url;
         if (url === '/') {
-            filePath = '/index.html';
+            return this.sendDefaultResponse();
         } else if(!filePath) {
             filePath = url;
         } 

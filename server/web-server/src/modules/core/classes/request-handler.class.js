@@ -4,7 +4,6 @@ import utils from '@shared/utils.class';
 import ResponseHandlerClass from '@coreModule/classes/response-handler.class';
 import isAuthorizedUser from '@userModule/functions/auth.function';
 import fs from 'fs';
-import { isActiveClient, CLIENTS_CONFIG } from '@configs/clients.config';
 
 let _this;
 
@@ -16,7 +15,6 @@ class RequestHandlerClass extends AbstractClass {
         super.initialize();
         _this = this;
         this._modules = {};
-        this.CLIENT = null; //Client config from clients.config.js, set at run for the current client.
     }
 
     _getHandlerInfo(req) {
@@ -43,7 +41,7 @@ class RequestHandlerClass extends AbstractClass {
 
             let moduleClass = fileModule[moduleClassName];
             if (moduleClass) {
-                moduleInstance = new moduleClass(this.CLIENT);
+                moduleInstance = new moduleClass();
                 this._modules[moduleName] = moduleInstance;
             } else {
                 errMessage = 'Module does not exist.';
@@ -53,7 +51,6 @@ class RequestHandlerClass extends AbstractClass {
         } else {
             moduleInstance = this._modules[moduleName];
         }
-        moduleInstance.CLIENT = this.CLIENT;
         if (moduleInstance) {
             const controllerInstance = moduleInstance.getControllerInstance(controllerName);
             if (!controllerInstance) {
@@ -64,7 +61,6 @@ class RequestHandlerClass extends AbstractClass {
             controllerInstance.request = req;
             controllerInstance.res = res;
             controllerInstance.response = responseHandler;
-            controllerInstance.CLIENT = this.CLIENT;
             const actionMethodName = utils.toMethodName(action, '-') + 'Action';
             if (!controllerInstance[actionMethodName]) {
                 errMessage = 'Request handler is not defined.';
@@ -132,25 +128,13 @@ class RequestHandlerClass extends AbstractClass {
             const url = req.url;
             const urlParts = url.split('/').splice(1);
             const routeIdentifier = urlParts[0];
-            const responseHandler = new ResponseHandlerClass(null, req, res);
+            const responseHandler = new ResponseHandlerClass(req, res);
 
-            let subdomainsArr = req.subdomains;
-            let clientName = '';
-            if (subdomainsArr && subdomainsArr.length > 0) {
-                console.log('If');
-                clientName = subdomainsArr[0];
-            } else {
-                clientName = req.hostname.replace('\.com', '').replace('.localhost', '');
-            }
-            if (!isActiveClient(clientName)) { //Client exist and active
-                responseHandler.status(406).end();
-                return;
-            }
-            _this.CLIENT = CLIENTS_CONFIG[clientName];
-            console.log('Info: Client Name - ', clientName, '.');
+           // let subdomainsArr = req.subdomains;
+           
 
             if (url === '/') {
-                responseHandler.sendFile().end(); //Send index.html
+                responseHandler.sendDefaultResponse(); 
             } else {
                 const userAuthorized = isAuthorizedUser(req, res);
                 if (_this._isValidAuthorizedFilePath(urlParts)) {
@@ -171,7 +155,7 @@ class RequestHandlerClass extends AbstractClass {
                 } else if(routeIdentifier === 'api' || routeIdentifier === 'assets') {
                     responseHandler.status(401).end('Unauthorized request..');
                 } else {
-                    let filePath = '/index.html';
+                    let filePath = '';
                     if (_this._isValidFilePath(urlParts) || _this._isValidFileName(urlParts[urlParts.length - 1])) {
                         filePath = url;
                     }

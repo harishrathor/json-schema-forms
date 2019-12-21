@@ -1,7 +1,7 @@
 
 let dbConfig = {};
 
-if(SERVER.isDev()) {
+if(global.SERVER.isDev()) {
     dbConfig = {
         PORT: 27017,
         HOSTNAME: 'localhost',

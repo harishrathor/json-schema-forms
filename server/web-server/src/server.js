@@ -8,8 +8,6 @@ import compress from 'compression';
 import methodOverride from 'method-override';
 import cors from 'cors';
 import helmet from 'helmet';
-import vhost from 'vhost';
-import { CLIENTS_URL_MAPPING } from '@configs/clients.config';
 
 const app = express();
 const Router = express.Router();
@@ -21,7 +19,7 @@ global.SERVER = {
 import Handler from "@coreModule/classes/request-handler.class";
 import sessionConfig from '@configs/session.config';
 import LoggerService from '@coreModule/services/logger.service';
-import { MASTER_CLIENT_NAME } from '@configs/clients.config';
+
 
 const MongoStore = require('connect-mongo')(session);
 
@@ -41,9 +39,11 @@ const globalValues = {
 };
 Object.assign(global.SERVER, globalValues);
 
+import SERVER_CONFIG from '@configs/server.config';
+
 //Using require because we need to load syncronously;
 require("@routes"); 
-require('@db');
+const { makeConnection, getConnection } = require('@db');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -56,12 +56,21 @@ app.use(methodOverride());
 app.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors());
+app.use(cors({
+	origin: function(origin, callback){
+	  // allow requests with no origin 
+	  // (like mobile apps or curl requests)
+	  if(!origin) return callback(null, true);
+	  if(SERVER_CONFIG.ALLOWED_ORIGINS.indexOf(origin) === -1){
+		var msg = 'The CORS policy for this site does not ' +
+				  'allow access from the specified Origin.';
+		return callback(new Error(msg), false);
+	  }
+	  return callback(null, true);
+	}
+  }));
 
-app.use(express.static(SERVER.PATHS.CLIENT_ROOT));
 app.use(express.static(SERVER.PATHS.STATIC_FILES));
-
-app.set('masterClientName', MASTER_CLIENT_NAME);
 
 //app.use(vhost(CLIENT_INFO.));
 
@@ -69,8 +78,9 @@ if (SERVER.isDev()) {
 	app.use(logger('dev'));
 }
 
-global.SERVER.DB.makeConnection().then(() => {
-	sessionConfig.store = new MongoStore({ db: global.SERVER.DB.getConnection(MASTER_CLIENT_NAME) });
+makeConnection()
+.then(() => {
+	sessionConfig.store = new MongoStore({ db: getConnection() });
 	app.use(
 		session(
 			sessionConfig
@@ -84,17 +94,15 @@ global.SERVER.DB.makeConnection().then(() => {
 });
 
 let serverRunning = false;
-let httpServer = null;
 function startServer() {
 	if (!serverRunning) {
 		const PORT = process.env.PORT || 5000;		
-		httpServer = app.listen(PORT, err => {
+		app.listen(PORT, err => {
 			if (err) {
 				console.log("Error in running web server.", err);
 			} else {
 				console.log(`Web(${process.env.NODE_ENV}) Server running at port ${PORT}.`);
 				serverRunning = true;
-				registerClients();
 			}
 		});
 		//console.log('httpServerInstance', httpServerInstance);
@@ -102,15 +110,6 @@ function startServer() {
 	}
 }
 
-function registerClients() {
-	for (let clientUrl in CLIENTS_URL_MAPPING) {
-		app.use(vhost(clientUrl, function (req, res) {
-			// handle req + res belonging to api.example.com
-			// pass the request to a standard Node.js HTTP server
-			httpServer.emit('request', req, res);
-		}));
-	}
-}
 /* 
  setTimeout(function() {
 	const fileGenerater = require('@coreModule/classes/file-generator.class');

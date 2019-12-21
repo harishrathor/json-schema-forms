@@ -1,10 +1,9 @@
 export default class AbstractController {
 
-    constructor(client, req = null, res = null, responseHandler = null) {
+    constructor(req = null, res = null, responseHandler = null) {
         this.request = req;
         this.res = res;
         this.response = responseHandler;
-        this.CLIENT = client; 
         this.initialize();
     }
 

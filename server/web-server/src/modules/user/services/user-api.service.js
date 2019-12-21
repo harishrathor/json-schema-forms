@@ -10,12 +10,12 @@ export class UserApiService extends AbstractService {
 
     initialize() {
         super.initialize();
-        this.userApiCollection = new UserApiCollection(this.CLIENT);
+        this.userApiCollection = new UserApiCollection();
     }
 
     createUserAPIData(userId) {
         return new Promise((resolve, reject) => {
-            const userCollection = new UserUsersCollection(this.CLIENT);
+            const userCollection = new UserUsersCollection();
             const userObjectId = ObjectId(userId);
             userCollection.findOne({
                 _id: userObjectId

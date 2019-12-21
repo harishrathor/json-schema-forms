@@ -11,8 +11,7 @@ export default class FormSchemaController extends AbstractController {
 
     initialize() {
         super.initialize();
-        console.log('FormSchemaController', this.CLIENT);
-        this.userApiService = new UserApiService(this.CLIENT);
+        this.userApiService = new UserApiService();
     }
 
     getFormSchemaAction() {

@@ -1,7 +1,6 @@
 export default class AbstractService {
     
-    constructor(client) {
-        this.CLIENT = client;
+    constructor() {
         this.initialize();
     }
 
