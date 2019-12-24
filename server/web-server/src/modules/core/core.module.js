@@ -10,6 +10,7 @@ export default class CoreModule extends AbstractModule {
     }
 
 }
-export {
-    CoreModule
-};
+
+export class CoreModuleV2 extends CoreModule {
+
+}

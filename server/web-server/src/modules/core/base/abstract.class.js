@@ -4,9 +4,7 @@ export default class AbstractClass {
         this.initialize();
     }
     
-    initialize() {
-    }
-
+    initialize() { }
 }
 
 export {

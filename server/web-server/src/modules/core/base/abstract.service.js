@@ -4,8 +4,7 @@ export default class AbstractService {
         this.initialize();
     }
 
-    initialize() {
-    }
+    initialize() { }
 
 }
 

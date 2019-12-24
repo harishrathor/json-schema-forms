@@ -4,9 +4,7 @@ export default class AbstractHelper {
         this.initialize();
     }
     
-    initialize() {
-    }
-
+    initialize() { }
 }
 
 export {

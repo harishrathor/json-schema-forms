@@ -7,6 +7,8 @@ export default class AbstractController {
         this.initialize();
     }
 
+    initialize() { }
+
     get reqParams() {
         return this.request.params;
     }
@@ -17,14 +19,6 @@ export default class AbstractController {
 
     get reqBody() {
         return this.request.body;
-    }
-
-   /*  sendResponse(resMethodName, ...methodArguments) {
-        return this.response[resMethodName].apply(this.responseHandler, methodArguments);
-    } */
-
-    initialize() {
-        
     }
 
 }

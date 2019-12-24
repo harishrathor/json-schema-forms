@@ -1,7 +1,6 @@
 
 import AbstractClass from '@coreModule/base/abstract.class';
 import path from 'path';
-import utils from '@shared/utils.class'; 
 
 export default class ResponseHandlerClass extends AbstractClass {
 
@@ -12,16 +11,16 @@ export default class ResponseHandlerClass extends AbstractClass {
     }
 
     initialize() {
-        super.initialize();
+        super.initialize(); 
 	}
 	
 	sendDefaultResponse() {
-		this._sendText('Server is alive.', true, 404);
+		this.sendResponse();
 	}
 
-    _write(content, endFlag, statusCode, contentType, endCoding) {
-        if (!endCoding) {
-            endCoding = 'utf-8';
+    _write(content, endFlag, statusCode, contentType, enCoding) {
+        if (!enCoding) {
+            enCoding = 'utf-8';
         }
         if (!statusCode) {
             statusCode = 200;
@@ -31,22 +30,22 @@ export default class ResponseHandlerClass extends AbstractClass {
         }
         this.res.writeHead(statusCode, contentType);
         if (endFlag) {
-            this.end(content, endCoding);
+            this.end(content, enCoding);
         } else {
-            this.write(content, endCoding);
-        }
+            this.write(content, enCoding);
+        } 
     }
 
     _sendText(text, endFlag, statusCode) {
       //  this._write(text, endFlag, statusCode, { 'Content-Type': 'text/html' });
         this.status(statusCode);
-        this.send(text);
+		this.send(text);
     }
 
     _sendJson(json, endFlag, statusCode) {
-      //  this._write(json, endFlag, statusCode, { 'Content-Type': 'application/json' });
+	  //  this._write(json, endFlag, statusCode, { 'Content-Type': 'application/json' });
       this.status(statusCode);
-      this.json(json);
+	  this.json(json);
     }
 
     _sendFile(filePath) {
@@ -61,24 +60,20 @@ export default class ResponseHandlerClass extends AbstractClass {
         this.res.sendFile(fullFilePath);
     }
 
-    sendResponse(resType, response, endFlag, resCode) {
-        if (!resType) {
-            return false;
-        }
-        if (!resCode) {
-            resCode = 200;
-        }
-        if (typeof endFlag !== 'boolean' && !endFlag ) {
-            endFlag = true;
-        }
-        const type = utils.toCamelCase(resType.toLowerCase());
-        const resMethodName = `_send${type}`;
-        if (!this[resMethodName]) {
-            return false;
-        }
-        this[resMethodName](response, endFlag, resCode);
-        return this;
-    }
+   
+	sendResponse(successFlag = true, data = '', message = 'Action Performed.', responseCode = '', httpStatusCode = 200, endFlag = true) {
+		var data = {
+			SUCCESS		: successFlag,
+			DATA		: data,
+			CODE		: responseCode,
+			MESSAGE		: message
+		};
+		this.status(httpStatusCode);
+		this.json(data);
+		if (endFlag) {
+			this.end();
+		}
+	}
 
     get app() {
 		return this.res.app;

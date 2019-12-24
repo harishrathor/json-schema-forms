@@ -32,22 +32,24 @@ class RequestHandlerClass extends AbstractClass {
         let errMessage = 'Request not supported.';
         if (!this._modules[moduleName]) {
             const modulePath = path.join(SERVER.PATHS.MODULES, moduleName, moduleName + '.module.js');
-            if (!fs.existsSync(modulePath)) {
-                responseHandler.end(errMessage);
-                return;
-            }
-            const fileModule = require(modulePath);
-            const moduleClassName = utils.toCamelCase(moduleName, '-') + 'Module';
+            fs.exists(modulePath, (err) => {
+                if (err) {
+                    responseHandler.end(err.message);
+                } else {
+                    const fileModule = require(modulePath);
+                    const moduleClassName = utils.toCamelCase(moduleName, '-') + 'Module';
 
-            let moduleClass = fileModule[moduleClassName];
-            if (moduleClass) {
-                moduleInstance = new moduleClass();
-                this._modules[moduleName] = moduleInstance;
-            } else {
-                errMessage = 'Module does not exist.';
-                responseHandler.end(errMessage);
-                return;
-            }
+                    let moduleClass = fileModule[moduleClassName];
+                    if (moduleClass) {
+                        moduleInstance = new moduleClass();
+                        this._modules[moduleName] = moduleInstance;
+                    } else {
+                        errMessage = 'Module does not exist.';
+                        responseHandler.end(errMessage);
+                        return;
+                    }
+                }
+            });
         } else {
             moduleInstance = this._modules[moduleName];
         }
@@ -75,7 +77,7 @@ class RequestHandlerClass extends AbstractClass {
         }
     }
 
-    handler(req, res, responseHandler) {
+    _handleRequest(req, res, responseHandler) {
         try {
             const handlerInfo = this._getHandlerInfo(req);
             if (!handlerInfo.module || !handlerInfo.controller || !handlerInfo.action) {
@@ -93,11 +95,11 @@ class RequestHandlerClass extends AbstractClass {
     }
 
     _GETHandler(req, res, responseHandler) {
-        this.handler(req, res, responseHandler);
+        this._handleRequest(req, res, responseHandler);
     }
 
     _POSTHandler(req, res, responseHandler) {
-        this.handler(req, res, responseHandler);
+        this._handleRequest(req, res, responseHandler);
     }
 
     _isValidAuthorizedFilePath(filePathParts) {
