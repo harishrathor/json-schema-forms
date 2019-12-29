@@ -66,6 +66,3 @@ export class UserApiService extends AbstractService {
     }
 
 }
-
-export default new UserApiService();
-        

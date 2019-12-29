@@ -8,7 +8,7 @@ export default class UserNavigationController extends AbstractController {
     }
 
     getUserMenuDataAction() {
-        this.response.end('User Menu Data Action');
+        this.responseHanlder.end('User Menu Data Action');
     }
 
 }

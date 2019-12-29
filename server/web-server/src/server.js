@@ -26,9 +26,11 @@ const MongoStore = require('connect-mongo')(session);
 const globalValues = {
 	ENV 				: process.env.NODE_ENV,		
 	ROUTER          	: Router,
+	EXPRESS 			: express,
 	APP             	: app,
-	REQUEST_HANDLER 	: Handler.handle,
-	CONSTANTS			: { API_ROUTE_PREFIX: "/api" },
+	REQUEST_HANLDER				: Handler,
+	API_REQUEST_HANDLER			: Handler.apiRequestHandler,
+	CONSTANTS			: { API_ROUTE_PREFIX: "api" },
 	UTILS				: {},
 	isDev				: function() { return process.env.NODE_ENV === 'development'; },
 	isProd				: function() { return process.env.NODE_ENV === 'production'; },
@@ -42,8 +44,8 @@ Object.assign(global.SERVER, globalValues);
 import SERVER_CONFIG from '@configs/server.config';
 
 //Using require because we need to load syncronously;
-require("@routes"); 
 const { makeConnection, getConnection } = require('@db');
+require("@routes"); 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
