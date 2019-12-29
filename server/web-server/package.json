@@ -2,7 +2,8 @@
   "name": "json-form-generator-server-web",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/server.js",
+  "type": "module",
   "directories": {
     "lib": "lib"
   },
@@ -27,6 +28,7 @@
     "run-loadtest": "npm run testload && npm run testload-forms && npm run testload-mailer",
     "start-dev-server": "npm-watch build-run-dev",
     "build-run-dev": "babel --presets es2015 src -d dist && env-cmd -e development node dist/server.js",
+    "build-run-dev-new": "env-cmd -e development node --experimental-modules src/server.js",
     "start-prod-server": "babel --presets es2015 src -d dist && env-cmd -e production node dist/server.js",
     "start-staging-server": "babel --presets es2015 src -d dist && env-cmd -e staging node dist/server.js"
   },
