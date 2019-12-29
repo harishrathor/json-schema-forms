@@ -17,18 +17,18 @@ export default class AuthController extends AbstractController {
         .validateUsingUsernamePassword(this.reqParams.username, this.reqParams.password)
         .then(count => {
             if(count === 1) {
-                this.request.session.username = this.reqParams.username;
+                this.req.session.username = this.reqParams.username;
              //   this.userApiService.createUserAPIData("5ce44ba5cea47279e855b255");//Copy from NoSQLBooster for MongoDB free edition. This message does not appear if you are using a registered version.
-                this.response.end('Logged In successfully.');
+                this.responseHanlder.end('Logged In successfully.');
             } else if (count > 1) {
-                this.response.end( 'More than one user exist.');
+                this.responseHanlder.end( 'More than one user exist.');
             } else {
-                this.response.end('User does not exists.');
+                this.responseHanlder.end('User does not exists.');
             }
         }) 
         .catch(error => {
             SERVER.LOGGER.logError(error);
-            this.response.end( 'Error in validating user.');
+            this.responseHanlder.end( 'Error in validating user.');
         }) 
         ;
       /*   const id = parseInt(Math.random() * 10000);
@@ -42,25 +42,25 @@ export default class AuthController extends AbstractController {
             phone: phone
         }).then((user) => {
             usersCollection.find().count().then((count) => {
-                this.response.end( 'Logged In successfully. Total insertion count: ' + count);
+                this.responseHanlder.end( 'Logged In successfully. Total insertion count: ' + count);
                 SERVER.LOGGER.logInfo('User count:', count);
             }).catch((err) => {
                 SERVER.LOGGER.logInfo('Error in fetching count').logError(err);
-                this.response.end( 'Error in counting user.');
+                this.responseHanlder.end( 'Error in counting user.');
             });
         }).catch((err) => {
             SERVER.LOGGER.logError(err);
-            this.response.end( 'Error in creating user.');
+            this.responseHanlder.end( 'Error in creating user.');
         }); */
     }
 
     logoutAction() {
-        this.request.session.destroy();
-        this.response.end( 'Logged Out successfully');
+        this.req.session.destroy();
+        this.responseHanlder.end( 'Logged Out successfully');
     }
 
     testAction() {
-        //this.response.end( 'Test Action.');
+        //this.responseHanlder.end( 'Test Action.');
         const responseJson = {
             "user": {
                 "ID": 2,
@@ -100,7 +100,7 @@ export default class AuthController extends AbstractController {
                 }
             ]
         };
-        this.response.json(responseJson).end();
+        this.responseHanlder.json(responseJson).end();
     }
 
     contextAction() {
@@ -157,13 +157,8 @@ export default class AuthController extends AbstractController {
             }, 2000);
         });
         promise.then(() => {
-            this.response.json(responseJson).end();
+            this.responseHanlder.json(responseJson).end();
         });
     }
 
-}
-
-export {
-    AuthController
-};
-        
+}    

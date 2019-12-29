@@ -22,16 +22,16 @@ export default class FormSchemaController extends AbstractController {
                 fs.readFile(jsonFilePath, 'utf8', (err, jsonStr) => {
                     if (err) {
                         if (err.code === 'ENOENT') {
-                            this.response.status(404).end();
+                            this.responseHanlder.status(404).end();
                         } else {
-                            this.response.status(500).end();
+                            this.responseHanlder.status(500).end();
                         }
                     } else {
-                        this.response.json(JSON.parse(jsonStr)).end();
+                        this.responseHanlder.json(JSON.parse(jsonStr)).end();
                     }
                 });
             } else {
-                this.response.status(401).end('Unauthorized request.');
+                this.responseHanlder.status(401).end('Unauthorized request.');
             }
             
         });
@@ -55,17 +55,12 @@ export default class FormSchemaController extends AbstractController {
                 const responseJson = {
                     data: dataStr
                 };
-                this.response.json(responseJson);
+                this.responseHanlder.json(responseJson);
             } else {
-                this.response.status(401).end('Unauthorized request.');
+                this.responseHanlder.status(401).end('Unauthorized request.');
             }
             
         });
     }
 
-}
-
-export {
-    FormSchemaController
-};
-        
+}    

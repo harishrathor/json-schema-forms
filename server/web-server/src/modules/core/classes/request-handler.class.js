@@ -9,7 +9,7 @@ let _this;
 
 const validUnauthorizedAPIEndPointsArr = ['/api/user/auth/login', '/api/api/form-schema/get-config', '/api/api/form-schema/get-form-schema', '/api/user/auth/test', '/api/user/auth/context'];
 
-class RequestHandlerClass extends AbstractClass {
+export class RequestHandlerClass extends AbstractClass {
 
     initialize() {
         super.initialize();
@@ -62,7 +62,7 @@ class RequestHandlerClass extends AbstractClass {
             }
             controllerInstance.request = req;
             controllerInstance.res = res;
-            controllerInstance.response = responseHandler;
+            controllerInstance.responseHanlder = responseHandler;
             const actionMethodName = utils.toMethodName(action, '-') + 'Action';
             if (!controllerInstance[actionMethodName]) {
                 errMessage = 'Request handler is not defined.';
@@ -125,7 +125,7 @@ class RequestHandlerClass extends AbstractClass {
         return valid;
     }
 
-    handle(req, res) {
+    handlerOld(req, res) {
         try {   
             const url = req.url;
             const urlParts = url.split('/').splice(1);
@@ -170,13 +170,84 @@ class RequestHandlerClass extends AbstractClass {
         }
     }
 
+    apiRequestHandler(ControllerClass, actionPath, req, res) {
+        const responseHandler = new ResponseHandlerClass(req, res);
+        const controllerInstance = new ControllerClass(req, res, responseHandler);
+        const actionMethodName = utils.toMethodName(actionPath, '-') + 'Action';
+        controllerInstance[actionMethodName]();
+    }
+
+    defaultHandler(req, res) {
+        const responseHandler = new ResponseHandlerClass(req, res);
+        responseHandler.sendDefaultResponse(); 
+    }
+
+    assetsHandler(req, res) {
+        const url = req.url;
+        const responseHandler = new ResponseHandlerClass(req, res);
+
+        const urlParts = url.split('/');
+        if (_this._isValidAuthorizedFilePath(urlParts)) {
+            if (isAuthorizedUser(req, res)) {
+                const filePath = url.substr('/assets', '');
+                responseHandler.sendFile(filePath).end();
+            } else {
+                responseHandler.status(401).end('Unauthorized file access.');
+            }
+        } else {
+            let filePath = '';
+            if (_this._isValidFilePath(urlParts) || _this._isValidFileName(urlParts[urlParts.length - 1])) {
+                filePath = url;
+            }
+            responseHandler.sendFile(filePath).end();   
+        }
+    }
+
+    serverStaticFilesHandler(req, res) {
+        const url = req.url;
+        const responseHandler = new ResponseHandlerClass(req, res);
+
+        const urlParts = url.split('/');
+        if (true || _this._isValidAuthorizedFilePath(urlParts)) {
+            if (true || isAuthorizedUser(req, res)) {
+                const filePath = url.replace('/static_files', '');
+                responseHandler.sendFile(filePath, true).end();
+            } else {
+                responseHandler.status(401).end('Unauthorized file access.');
+            }
+        }
+    }
+
+    //Other than APIs requests handler.
+    requestHandeler(req, res, next) {
+        const url = req.url;
+        const responseHandler = new ResponseHandlerClass(req, res);
+
+        if (url === '/') {
+            return responseHandler.sendDefaultResponse(); 
+        }
+
+        const urlParts = url.split('/');
+        if (_this._isValidAuthorizedFilePath(urlParts)) {
+            if (isAuthorizedUser(req, res)) {
+                const filePath = url.substr(5);
+                responseHandler.sendFile(filePath).end();
+            } else {
+                responseHandler.status(401).end('Unauthorized file access.');
+            }
+        } else {
+            let filePath = '';
+            if (_this._isValidFilePath(urlParts) || _this._isValidFileName(urlParts[urlParts.length - 1])) {
+                filePath = url;
+            }
+            responseHandler.sendFile(filePath).end();   
+        }
+        
+       // next();
+    }
+
 }
 
 
 const Handler = new RequestHandlerClass();
 export default Handler;
-
-export {
-    RequestHandlerClass
-};
-        
