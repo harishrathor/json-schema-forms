@@ -6,7 +6,7 @@ export default class ResponseHandlerClass extends AbstractClass {
 
     constructor(req, res) {
         super();
-        this.request = req;
+        this.req = req;
 		this.res = res;
     }
 
@@ -49,8 +49,8 @@ export default class ResponseHandlerClass extends AbstractClass {
     }
 
     _sendFile(filePath) {
-        const request = this.request;
-        const url = request.url;
+        const req = this.req;
+        const url = req.url;
         if (url === '/') {
             return this.sendDefaultResponse();
         } else if(!filePath) {
@@ -152,8 +152,8 @@ export default class ResponseHandlerClass extends AbstractClass {
 	}	
 
 	sendFile(filePath, isServerStaticFile, isAbsolutePath, ...restParams) {
-		const request = this.request;
-        const url = request.url;
+		const req = this.req;
+        const url = req.url;
         if (url === '/') {
             filePath = '/index.html';
         } else if(!filePath) {

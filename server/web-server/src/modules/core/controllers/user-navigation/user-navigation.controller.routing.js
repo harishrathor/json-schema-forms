@@ -1,13 +1,12 @@
 
-const router = global.SERVER.ROUTER;
-const requestHandler = global.SERVER.REQUEST_HANDLER; 
-const apiRoutePrefix = global.SERVER.CONSTANTS.API_ROUTE_PREFIX;
+import UserNavigationController from '@coreModule/controllers/user-navigation/user-navigation.controller';
 
-/***********************  Route Example:
-  
-    router.[HTTP_METHOD](`${apiRoutePrefix}/core/user-navigation/{action-name}/:?param1/:?param2`, requestHandler);
+const UserNavigationRouter = SERVER.EXPRESS.Router();
 
-********************/
-
-router.get(`${apiRoutePrefix}/core/user-navigation/get-user-menu-data`, requestHandler);
+UserNavigationRouter
+.route('/get-user-menu-data')
+.get(SERVER.API_REQUEST_HANDLER.bind(SERVER.REQUEST_HANDLER, UserNavigationController, `get-user-menu-data`));
         
+module.exports = ModuleRouter => {
+    ModuleRouter.use(`/user-navigation`, UserNavigationRouter);
+};

@@ -1,5 +1,4 @@
-
-
+import { getConnection } from '@db';
 export default class AbstractCollection {
 
     constructor() {
@@ -12,7 +11,7 @@ export default class AbstractCollection {
 
     postInit() {
 		if (this.collectionName) {
-			SERVER.DB.getConnection().collection(this.collectionName, (err, collection) => {
+			getConnection().collection(this.collectionName, (err, collection) => {
 				if (err) {
 					SERVER.LOGGER.logError(err);
 				} else {

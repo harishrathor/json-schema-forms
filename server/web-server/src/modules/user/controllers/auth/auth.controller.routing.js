@@ -1,16 +1,24 @@
+import AuthController from '@userModule/controllers/auth/auth.controller';
 
-const router = global.SERVER.ROUTER;
-const requestHandler = global.SERVER.REQUEST_HANDLER; 
-const apiRoutePrefix = global.SERVER.CONSTANTS.API_ROUTE_PREFIX;
+const Router = SERVER.EXPRESS.Router();
 
-/***********************  Route Example:
-  
-    router.[HTTP_METHOD](`${apiRoutePrefix}/user/auth/{action-name}/:?param1/:?param2`, requestHandler);
+Router
+.route('/login/:username/:password')
+.get(SERVER.API_REQUEST_HANDLER.bind(SERVER.REQUEST_HANDLER, AuthController, `login`));
 
-********************/
-router.get(`${apiRoutePrefix}/user/auth/login/:username/:password`, requestHandler);
-//router.get(`${apiRoutePrefix}/user/auth/login`, requestHandler);
-router.get(`${apiRoutePrefix}/user/auth/logout`, requestHandler);
-router.get(`${apiRoutePrefix}/user/auth/test`, requestHandler);
-router.get(`${apiRoutePrefix}/user/auth/context`, requestHandler);
+Router
+.route('/logout')
+.get(SERVER.API_REQUEST_HANDLER.bind(SERVER.REQUEST_HANDLER, AuthController, `logout`));
+
+Router
+.route('/test')
+.get(SERVER.API_REQUEST_HANDLER.bind(SERVER.REQUEST_HANDLER, AuthController, `test`));
+
+Router
+.route('/context')
+.get(SERVER.API_REQUEST_HANDLER.bind(SERVER.REQUEST_HANDLER, AuthController, `context`));
+        
+module.exports = ModuleRouter => {
+    ModuleRouter.use(`/auth`, Router);
+};
         
